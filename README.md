@@ -48,6 +48,8 @@ For ease of referring to specific parts of the specification, each requirement i
 
 ## Namespace
 
+Discussion: https://github.com/pacharanero/open-terminology/issues/1
+
 One of the key functions of a clinical terminology is to provide a namespace of concept identifiers. Each concept in the terminology will have a unique identifier, which can be used to reference the concept in clinical systems. Below are some of the key properties of the concept identifiers in OCT, which have led to the choice of the identifier format used.
 
 #### NS001 **Unique** - each identifier must uniquely identify a single concept within the terminology.
