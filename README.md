@@ -44,6 +44,8 @@ Proposals for changes or additions to the terminology should be made via **Pull 
 
 # Specification
 
+For ease of referring to specific parts of the specification, each requirement is given a code eg NS001.
+
 ## Namespace
 
 One of the key functions of a clinical terminology is to provide a namespace of concept identifiers. Each concept in the terminology will have a unique identifier, which can be used to reference the concept in clinical systems. Below are some of the key properties of the concept identifiers in OCT, which have led to the choice of the identifier format used.
