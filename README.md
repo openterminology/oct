@@ -34,9 +34,9 @@ However, I believe that an open and free terminology can fill a gap in the curre
 
 ## Getting Involved
 
-To discuss any of the core ideas, please use the **Discussions** section of this repository.
+To discuss anything about OCT please use the [OCT Category of openhealthhub.org](https://openhealthhub.org/c/oct/58) - this is a good starting point for discussions, questions, and suggestions as well as learning about the project and connecting with existing contributors.
 
-If things need to be changed, raise this as an **Issue**, including as much clarity and reasoning around the proposed change as possible.
+If things need to be changed, raise this as an **Issue**, including as much clarity and reasoning around the proposed change as possible. Ideally, link to relevant discussions on openhealthhub.org, and/or relevant sections of the terminology itself
 
 Proposals for changes or additions to the terminology should be made via **Pull Requests**.
 
@@ -48,16 +48,24 @@ Proposals for changes or additions to the terminology should be made via **Pull 
 
 One of the key functions of a clinical terminology is to provide a namespace of concept identifiers. Each concept in the terminology will have a unique identifier, which can be used to reference the concept in clinical systems. Below are some of the key properties of the concept identifiers in OCT, which have led to the choice of the identifier format used.
 
-* **Unique**
+#### NS001 **Unique** - each identifier must uniquely identify a single concept within the terminology.
 
-* **Non-semantic**
+#### NS002 **Non-semantic** - the identifier does not convey any meaning about the concept it represents.
 
-* **Persistent** - once assigned, an identifier will never be reused for a different concept, and will never be deleted. Inactive concepts will be marked as such, but their identifiers will remain in use.
+#### NS003 **Persistent** - once assigned, an identifier will never be reused for a different concept, and will never be deleted. Inactive concepts will be marked as such, but their identifiers will remain in use.
 
-* **Short**
+#### NS004 **Short** - the identifier should be as short as possible, to make it easy to use and remember.
 
-* **Human-pronounceable**
+#### NS005 **Human-communicatable** - it should be possible for humans to communicate the identifier verbally without ambiguity or confusion.
 
-* **URL and filename-safe**
+#### NS006 **URL and filename-safe** - the identifier should be safe to use in URLs and filenames without requiring special encoding.
 
-* **Large** - the identifier space should be large enough to accommodate a vast number of concepts, to avoid running out of identifiers in the future.
+#### NS007 **Future-proof** - the identifier namespace should be large enough to accommodate a vast number of concepts, to avoid running out of identifiers in the future.
+
+#### NS008 **Recognisable** - the identifier format should be recognisable as belonging to OCT, to avoid confusion with identifiers from other terminologies.
+
+## Namespace - Hierarchy Separation
+
+Trying to achieve both a permanent namespace **and** a comprehensive logical hierarchy over time has proven to be an intractable problem for existing clinical terminologies. OCT aims to address this by separating the namespace of concept identifiers from the hierarchical relationships between concepts.
+
+## 
