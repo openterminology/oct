@@ -170,5 +170,4 @@ For questions, discussions, or to get involved, please visit the [Open Health Hu
 - Tomomi Yamano - Contributor 
 
 ## RFCs
-
 A number of aspects of the project are still under discussion, these are labelled <kbd>[RFC](#rfcs)</kbd>. GitHub Issues or [openhealthhub.org](https://openhealthhub.org/c/oct) may be used for discussion, and when consensus is reached these sections will be updated accordingly.
