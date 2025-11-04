@@ -167,6 +167,7 @@ For questions, discussions, or to get involved, please visit the [Open Health Hu
 ## Contributors
 
 - Dr Marcus Baw MBChB(Hons) MRCGP FFCI - BDFL and Lead Maintainer
+- Tomomi Yamano - Contributor 
 
 ## RFCs
 
