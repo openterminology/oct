@@ -104,7 +104,7 @@ def search(query, directory, language):
             try:
                 content = filepath.read_text(encoding='utf-8')
                 if query.lower() in content.lower():
-                    click.echo(f"Found in file: {filepath}")
+                    click.echo(f"{filepath.name} # {content}")
                     found = True
             except Exception as e:
                 click.echo(f"Could not read {filepath}: {e}")
