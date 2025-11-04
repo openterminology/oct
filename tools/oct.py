@@ -102,7 +102,7 @@ def search(query, directory, language):
             found = True
         elif filepath.is_file():
             try:
-                content = filepath.read_text(errors='ignore')
+                content = filepath.read_text(encoding='utf-8')
                 if query.lower() in content.lower():
                     click.echo(f"Found in file: {filepath}")
                     found = True
