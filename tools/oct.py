@@ -37,11 +37,10 @@ def get_terms_directory():
 
 
 @click.group()
-@click.version_option(version="0.1.0")
+@click.version_option(version="0.1.1")
 def cli():
     """OCT - Open Clinical Terminology Tool"""
     pass
-
 
 @cli.command()
 @click.option('--directory', '-d', default=None, 
@@ -77,6 +76,40 @@ def new(directory, language):
     # If we get here, we couldn't generate a unique ID
     click.echo(f"Error: Could not generate unique identifier after {max_attempts} attempts", err=True)
     exit(1)
+
+# ----------------------------------------------------------------
+# COMMAND: SEARCH
+# ----------------------------------------------------------------
+@cli.command()
+@click.argument('query', required=True)
+@click.option('--directory', '-d', default=None,
+              help='Directory to search (defaults to terms/)')
+@click.option('--language', '-l', default='en-GB',
+              help='Language code for the concept (defaults to en-GB)')
+def search(query, directory, language):
+    """Search for a concept file by ID or content."""
+    if directory:
+        search_dir = Path(directory)
+    else:
+        search_dir = get_terms_directory() / language
+    if not search_dir.exists():
+        click.echo(f"Directory not found: {search_dir}")
+        return
+    found = False
+    for filepath in search_dir.glob('*'):
+        if query.lower() in filepath.name.lower():
+            click.echo(f"Found by filename: {filepath}")
+            found = True
+        elif filepath.is_file():
+            try:
+                content = filepath.read_text(encoding='utf-8')
+                if query.lower() in content.lower():
+                    click.echo(f"{filepath.name} # {content}")
+                    found = True
+            except Exception as e:
+                click.echo(f"Could not read {filepath}: {e}")
+    if not found:
+        click.echo("No matches found.")
 
 
 if __name__ == '__main__':
