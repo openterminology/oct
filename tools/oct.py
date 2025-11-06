@@ -9,7 +9,8 @@ import click
 import secrets
 import os
 from pathlib import Path
-
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 # Crockford Base32 alphabet (excludes 0, 1, I, L, O, U to avoid confusion)
 CROCKFORD_BASE32 = "0123456789ABCDEFGHJKMNPQRSTVWXYZ"
