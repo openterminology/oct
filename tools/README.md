@@ -42,8 +42,14 @@ seach an existing concept file with a unique 6-character Crockford Base32 identi
 
 Example:
 ```bash
-./oct.py search "schizophrenia"
-# Finds files containing "schizophrenia" in name or text
+# Search by keyword in file name or content
+./oct.py search "delusion"
+
+# Search for a specific concept ID
+./oct.py search "A1B2C3"
+
+# Specify a custom directory
+./oct.py search "anxiety" --directory ./custom_terms/en-GB
 
 ## Technical Details
 
