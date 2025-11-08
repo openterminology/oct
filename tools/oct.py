@@ -19,14 +19,14 @@ CROCKFORD_BASE32 = "0123456789ABCDEFGHJKMNPQRSTVWXYZ"
 def generate_crockford_base32_id(length=6):
     """
     Generate a random identifier using Crockford Base32 encoding.
-    
+
     Args:
         length (int): Length of the identifier to generate
-        
+
     Returns:
         str: Random identifier using Crockford Base32 characters
     """
-    return ''.join(secrets.choice(CROCKFORD_BASE32) for _ in range(length))
+    return "".join(secrets.choice(CROCKFORD_BASE32) for _ in range(length))
 
 
 def get_terms_directory():
@@ -43,29 +43,38 @@ def cli():
     """OCT - Open Clinical Terminology Tool"""
     pass
 
+
 @cli.command()
-@click.option('--directory', '-d', default=None, 
-              help='Directory to create the file in (defaults to terms/)')
-@click.option('--language', '-l', default='en-GB',
-              help='Language code for the concept (defaults to en-GB)')
+@click.option(
+    "--directory",
+    "-d",
+    default=None,
+    help="Directory to create the file in (defaults to terms/)",
+)
+@click.option(
+    "--language",
+    "-l",
+    default="en-GB",
+    help="Language code for the concept (defaults to en-GB)",
+)
 def new(directory, language):
     """Create a new concept file with a unique Crockford Base32 identifier."""
-    
+
     # Determine target directory
     if directory:
         target_dir = Path(directory)
     else:
         target_dir = get_terms_directory() / language
-    
+
     # Ensure target directory exists
     target_dir.mkdir(parents=True, exist_ok=True)
-    
+
     # Generate unique identifier
     max_attempts = 1000
     for attempt in range(max_attempts):
         identifier = generate_crockford_base32_id()
         filepath = target_dir / f"{identifier}"
-        
+
         # Check if file already exists
         if not filepath.exists():
             # Create empty file
@@ -73,20 +82,29 @@ def new(directory, language):
             click.echo(f"Created new concept file: {filepath}")
             click.echo(f"Concept ID: {identifier}")
             return
-    
+
     # If we get here, we couldn't generate a unique ID
-    click.echo(f"Error: Could not generate unique identifier after {max_attempts} attempts", err=True)
+    click.echo(
+        f"Error: Could not generate unique identifier after {max_attempts} attempts",
+        err=True,
+    )
     exit(1)
+
 
 # ----------------------------------------------------------------
 # COMMAND: SEARCH
 # ----------------------------------------------------------------
 @cli.command()
-@click.argument('query', required=True)
-@click.option('--directory', '-d', default=None,
-              help='Directory to search (defaults to terms/)')
-@click.option('--language', '-l', default='en-GB',
-              help='Language code for the concept (defaults to en-GB)')
+@click.argument("query", required=True)
+@click.option(
+    "--directory", "-d", default=None, help="Directory to search (defaults to terms/)"
+)
+@click.option(
+    "--language",
+    "-l",
+    default="en-GB",
+    help="Language code for the concept (defaults to en-GB)",
+)
 def search(query, directory, language):
     """Search for a concept file by ID or content."""
     if directory:
@@ -97,13 +115,13 @@ def search(query, directory, language):
         click.echo(f"Directory not found: {search_dir}")
         return
     found = False
-    for filepath in search_dir.glob('*'):
+    for filepath in search_dir.glob("*"):
         if query.lower() in filepath.name.lower():
             click.echo(f"Found by filename: {filepath}")
             found = True
         elif filepath.is_file():
             try:
-                content = filepath.read_text(encoding='utf-8')
+                content = filepath.read_text(encoding="utf-8")
                 if query.lower() in content.lower():
                     click.echo(f"{filepath.name} # {content}")
                     found = True
@@ -113,5 +131,74 @@ def search(query, directory, language):
         click.echo("No matches found.")
 
 
-if __name__ == '__main__':
+# ----------------------------------------------------------------
+# COMMAND: SIMILAR
+# ----------------------------------------------------------------
+@cli.command()
+@click.argument("query", required=True)
+@click.option(
+    "--directory", "-d", default=None, help="Directory to search (defaults to terms/)"
+)
+@click.option(
+    "--language",
+    "-l",
+    default="en-GB",
+    help="Language code for the concept (defaults to en-GB)",
+)
+@click.option(
+    "--threshold",
+    "-t",
+    default=0.2,
+    type=float,
+    help="Cosine similarity threshold for matching (default: 0.2)",
+)
+def similar(query, directory, language, threshold):
+    """Find concept files similar in meaning to the query using cosine similarity."""
+    # Determine search directory
+    if directory:
+        search_dir = Path(directory)
+    else:
+        search_dir = get_terms_directory() / language
+
+    if not search_dir.exists():
+        click.echo(f"Directory not found: {search_dir}")
+        return
+
+    # Read all concept files
+    filepaths, texts = [], []
+    for filepath in search_dir.glob("*"):
+        if filepath.is_file():
+            try:
+                text = filepath.read_text(encoding="utf-8").strip()
+                filepaths.append(filepath)
+                texts.append(text)
+            except Exception as e:
+                click.echo(f"Could not read {filepath}: {e}")
+
+    if not texts:
+        click.echo("No readable files found.")
+        return
+
+    # Vectorize query and all texts
+    vectorizer = TfidfVectorizer().fit([query] + texts)
+    vectors = vectorizer.transform([query] + texts)
+
+    # Compute cosine similarity scores
+    similarities = cosine_similarity(vectors[0:1], vectors[1:]).flatten()
+
+    # Display results sorted by similarity score
+    found = False
+    for filepath, score in sorted(
+        zip(filepaths, similarities), key=lambda x: x[1], reverse=True
+    ):
+        if score >= threshold:
+            click.echo(f"[{score:.3f}] {filepath.name}")
+            found = True
+
+    if not found:
+        click.echo("No similar concepts found above the threshold.")
+
+
+if __name__ == "__main__":
     cli()
+# End-of-file (EOF)
