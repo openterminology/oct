@@ -32,7 +32,7 @@ Options:
 Example:
 ```bash
 ./oct.py new
-# Creates a file like: ../terms/A1B2C3.md
+# Creates a file like: ../terms/A1B2C3.oct
 
 ./oct.py new --directory /custom/path
 # Creates a file in the specified directory
@@ -44,4 +44,4 @@ Example:
 - Excludes confusing characters (0, 1, I, L, O, U are not used)
 - Generates cryptographically secure random identifiers
 - Automatically checks for duplicates and retries if necessary
-- Creates empty `.md` files ready for content addition
+- Creates empty `.oct` files ready for content addition

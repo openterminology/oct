@@ -63,7 +63,7 @@ def new(directory, language):
     max_attempts = 1000
     for attempt in range(max_attempts):
         identifier = generate_crockford_base32_id()
-        filepath = target_dir / f"{identifier}"
+        filepath = target_dir / f"{identifier}.oct"
         
         # Check if file already exists
         if not filepath.exists():
@@ -96,9 +96,10 @@ def search(query, directory, language):
         click.echo(f"Directory not found: {search_dir}")
         return
     found = False
-    for filepath in search_dir.glob('*'):
-        if query.lower() in filepath.name.lower():
-            click.echo(f"Found by filename: {filepath}")
+    for filepath in search_dir.rglob('*.oct'):
+        concept_id = filepath.stem
+        if query.lower() in concept_id.lower():
+            click.echo(f"Found by filename: {concept_id}")
             found = True
         elif filepath.is_file():
             try:
