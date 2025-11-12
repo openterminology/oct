@@ -11,8 +11,8 @@ import os
 from pathlib import Path
 
 
-# Crockford Base32 alphabet (excludes 0, 1, I, L, O, U to avoid confusion)
-CROCKFORD_BASE32 = "0123456789ABCDEFGHJKMNPQRSTVWXYZ"
+# Crockford Base32 alphabet in lowercase (excludes i, l, o, u to avoid confusion)
+CROCKFORD_BASE32 = "0123456789abcdefghjkmnpqrstvwxyz"
 
 
 def generate_crockford_base32_id(length=6):
