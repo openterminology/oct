@@ -11,6 +11,25 @@ This directory contains the Python-based command-line tool for managing the Open
    ```
 
 ## Usage
+Create and activate a virtual environment (recommended):
+
+```bash
+# create a virtual environment in `.venv`
+python3 -m venv .venv
+
+# activate the virtual environment (Linux/macOS, bash/zsh)
+source .venv/bin/activate
+
+# upgrade pip and install dependencies
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+To deactivate the virtual environment:
+
+```bash
+deactivate
+```
 
 Make the script executable:
 ```bash
