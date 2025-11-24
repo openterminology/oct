@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    # Use host networking so Caddy can proxy to services running on the host (e.g. Python dev server)
+    network_mode: "host"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./caddy/data:/data
+      - ./caddy/config:/config
+      - ./static:/srv/static:ro
+    # If you prefer not to use host networking, remove network_mode and expose ports 80/443

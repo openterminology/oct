@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SHRiMP-like Terminology Viewer</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <style>
+    .form-row{display:flex;gap:.5rem;align-items:center;margin-bottom:.5rem}
+    .muted{color:#666;font-size:.9rem}
+    pre.json{background:#f7f7f7;border:1px solid #e3e3e3;padding:1rem;overflow:auto}
+    .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">SHRiMP-like Viewer (client-only)</div>
+    <div class="top-actions">
+      <a href="/static/index.html" class="btn">Back</a>
+    </div>
+  </header>
+
+  <main style="padding:1rem;max-width:1000px;margin:0 auto">
+    <section>
+      <h2>Lookup a concept</h2>
+      <div class="form-row">
+        <label for="fhirBase" class="muted">FHIR Server</label>
+        <input id="fhirBase" value="https://tx.ontoserver.csiro.au/fhir" style="flex:1" />
+      </div>
+      <div class="form-row">
+        <label for="conceptId" class="muted">Concept ID</label>
+        <input id="conceptId" value="138875005" />
+        <button id="lookupBtn">Lookup</button>
+      </div>
+      <div class="form-row">
+        <label class="muted">System</label>
+        <input id="system" value="http://snomed.info/sct" style="flex:1" />
+      </div>
+      <p class="muted">The viewer performs a FHIR `$lookup` call. CORS and server availability depend on the chosen FHIR endpoint.</p>
+
+      <div id="output">
+        <h3 id="title">Result</h3>
+        <div id="summary"></div>
+        <div class="result-grid">
+          <div>
+            <h4>Raw JSON</h4>
+            <pre id="raw" class="json">{}
+            </pre>
+          </div>
+          <div>
+            <h4>Details</h4>
+            <div id="details"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer style="text-align:center;padding:1rem">
+    <small class="muted">Client demo — no server-side code.</small>
+  </footer>
+
+  <script src="/static/octopus.js" defer></script>
+</body>
+</html>

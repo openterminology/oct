@@ -1,0 +1,28 @@
+[
+  {
+    "id": "890297007",
+    "term": "Example Diabetes Mellitus",
+    "fsn": "Diabetes mellitus (disorder)",
+    "definition": "A mock definition for demo purposes.",
+    "relations": [
+      { "type": "is a", "targetId": "44054006", "targetTerm": "Diabetes" },
+      { "type": "finding site", "targetId": "123456789", "targetTerm": "Pancreas" }
+    ]
+  },
+  {
+    "id": "100000001",
+    "term": "Example Hypertension",
+    "fsn": "Hypertensive disorder (disorder)",
+    "definition": "A mock hypertension concept used for UI demo.",
+    "relations": [
+      { "type": "is a", "targetId": "38341003", "targetTerm": "Hypertensive disorder" }
+    ]
+  },
+  {
+    "id": "44054006",
+    "term": "Diabetes",
+    "fsn": "Diabetes (disorder)",
+    "definition": "Parent diabetes concept (mock).",
+    "relations": []
+  }
+]
