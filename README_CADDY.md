@@ -22,3 +22,7 @@ Notes:
 - The default Caddyfile proxies requests to `localhost:8000`. If your application listens on a different port, update `caddy/Caddyfile` accordingly.
 - `network_mode: "host"` is convenient for local development on Linux; if you prefer isolated networking, remove `network_mode` and expose port `80` on the container, then update the proxy target to the container service name.
 - Caddy persists ACME and other runtime state in `caddy/data` and `caddy/config` when running via the provided compose file.
+
+Name / trademark note:
+
+- The UI in this branch is named "Octopus" (Octopus viewer). There is an existing product called "Octopus Viewer" outside this project; before using the same name publicly or publishing releases, please check for any trademark or branding conflicts and consider renaming if necessary. This repository does not perform any trademark clearance — this is a reminder to review naming/branding legally as appropriate for your organization.
