@@ -90,6 +90,41 @@ function escapeHtml(s){
 }
 
 document.addEventListener('DOMContentLoaded', ()=>{
+  // Wire up lookup button and Enter key
   document.getElementById('lookupBtn').addEventListener('click', doLookup);
   document.getElementById('conceptId').addEventListener('keydown', (e)=>{ if(e.key==='Enter') doLookup(); });
+
+  // Read URL parameters and populate inputs. Show them in the header as Octopus version info.
+  try {
+    const qs = new URLSearchParams(window.location.search);
+    const concept = qs.get('concept') || qs.get('code') || '';
+    const fhir = qs.get('fhir') || '';
+    const valueset = qs.get('valueset') || qs.get('valueSet') || '';
+    const tour = qs.get('tour') || '';
+
+    if (concept) document.getElementById('conceptId').value = concept;
+    if (fhir) document.getElementById('fhirBase').value = fhir;
+    if (qs.get('system')) document.getElementById('system').value = qs.get('system');
+
+    const parts = [];
+    if (concept) parts.push(`<strong>concept</strong>: ${escapeHtml(concept)}`);
+    if (valueset) parts.push(`<strong>valueset</strong>: ${escapeHtml(valueset)}`);
+    if (fhir) parts.push(`<strong>fhir</strong>: ${escapeHtml(fhir)}`);
+    if (tour) parts.push(`<strong>tour</strong>: ${escapeHtml(tour)}`);
+
+    const infoEl = document.getElementById('queryInfo');
+    if (parts.length) {
+      infoEl.innerHTML = `Params — ${parts.join(' · ')}`;
+    } else {
+      infoEl.textContent = 'No URL parameters detected';
+    }
+
+    // Auto-run lookup if concept param present
+    if (concept) {
+      // slight delay so UI shows the populated fields
+      setTimeout(() => { doLookup(); }, 150);
+    }
+  } catch (e) {
+    // ignore parsing errors
+  }
 });
