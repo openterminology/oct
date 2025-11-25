@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Octopus — Preact Collapsible Tree</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; padding: 1rem; }
+    h1 { margin: 0 0 0.5rem 0; font-size: 1.25rem; }
+    .toolbar { margin: 0.5rem 0; }
+    .toolbar button { margin-right: 0.5rem; }
+    svg { width: 100%; height: 72vh; border: 1px solid #eee; background: #fff; }
+    .node circle { fill: #fff; stroke: #3182bd; stroke-width: 1.5px; }
+    .node text { font: 12px system-ui, sans-serif; }
+    .link { fill: none; stroke: #9ecae1; stroke-width: 1.5px; }
+    .node--internal circle { fill: #3182bd; }
+    .node--collapsed circle { fill: #ffd54f; }
+  </style>
+</head>
+<body>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+    <h1>Octopus — Preact Collapsible Tree</h1>
+    <a href="/static/octopus.html" style="padding:0.5rem 1rem;background:#3182bd;color:white;text-decoration:none;border-radius:4px">← Back to Octopus</a>
+  </div>
+  <div class="toolbar">
+    <button id="expandAll">Expand All</button>
+    <button id="collapseAll">Collapse All</button>
+  </div>
+  <div id="app"></div>
+  <script type="module" src="tree-preact.js"></script>
+</body>
+</html>

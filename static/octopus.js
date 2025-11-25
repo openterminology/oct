@@ -1,130 +1,232 @@
-async function doLookup() {
-  const fhir = document.getElementById('fhirBase').value.replace(/\/+$/, '');
-  const code = document.getElementById('conceptId').value.trim();
-  const system = document.getElementById('system').value.trim();
-  const rawEl = document.getElementById('raw');
-  const detailsEl = document.getElementById('details');
-  const summaryEl = document.getElementById('summary');
+import { h, render } from 'https://esm.sh/preact@10.24.3';
+import { useState, useEffect } from 'https://esm.sh/preact@10.24.3/hooks';
+import htm from 'https://esm.sh/htm@3.1.1';
 
-  if (!fhir || !code) {
-    alert('Please provide FHIR server and concept id');
-    return;
-  }
+const html = htm.bind(h);
 
-  rawEl.textContent = 'Loading...';
-  detailsEl.innerHTML = '';
-  summaryEl.textContent = '';
-
-  // Try the generic $lookup endpoint at the server root first.
-  const params = new URLSearchParams({ system, code });
-  const urls = [
-    `${fhir}/$lookup?${params}`,
-    `${fhir}/CodeSystem/$lookup?${params}`,
-    `${fhir}/CodeSystem/$lookup?${params}`
-  ];
-
-  let res = null;
-  let ok = false;
-  let lastErr = null;
-  for (const url of urls) {
-    try {
-      const r = await fetch(url, { headers: { Accept: 'application/fhir+json,application/json' } });
-      if (!r.ok) {
-        lastErr = `${r.status} ${r.statusText} from ${url}`;
-        continue;
-      }
-      res = await r.json();
-      ok = true;
-      break;
-    } catch (e) {
-      lastErr = e.message;
-    }
-  }
-
-  if (!ok) {
-    rawEl.textContent = `Lookup failed: ${lastErr}`;
-    return;
-  }
-
-  rawEl.textContent = JSON.stringify(res, null, 2);
-
-  // Render some useful pieces
-  const display = [];
-  // FHIR $lookup returns parameter bundle with parameter[] elements
-  const params = res.parameter || res.parameter || [];
-  if (Array.isArray(params) && params.length) {
-    const fsn = params.find(p => p.name === 'display') || params.find(p => p.name === 'name');
-    const designations = params.filter(p => p.name === 'designation');
-    if (fsn && fsn.valueString) display.push(`<strong>Display:</strong> ${escapeHtml(fsn.valueString)}`);
-    if (designations.length) {
-      const items = designations.map(d => {
-        try {
-          const val = d.part ? d.part.find(p=>p.name==='value') : null;
-          return val && val.valueString ? escapeHtml(val.valueString) : JSON.stringify(d);
-        } catch(e){return JSON.stringify(d)}
-      });
-      display.push(`<strong>Designations:</strong><ul>${items.map(i=>`<li>${i}</li>`).join('')}</ul>`);
-    }
-  }
-
-  // Try to display properties
-  const properties = (res.parameter || []).find(p => p.name === 'property');
-  if (properties && Array.isArray(properties.part)) {
-    const rows = properties.part.map(pp => {
-      const n = pp.part && pp.part.find(x=>x.name==='code')?.valueString;
-      const v = pp.part && pp.part.find(x=>x.name==='value')?.valueString;
-      if (n) return `<div><strong>${escapeHtml(n)}:</strong> ${escapeHtml(v||'')}</div>`;
-      return '';
-    }).filter(Boolean);
-    if (rows.length) display.push(`<strong>Properties:</strong>${rows.join('')}`);
-  }
-
-  if (!display.length) display.push('<em>No structured display items found — see raw JSON.</em>');
-  detailsEl.innerHTML = display.join('\n');
-  summaryEl.innerHTML = `<div><strong>Lookup succeeded</strong> — showing ${Object.keys(res).length} top-level keys</div>`;
-}
-
-function escapeHtml(s){
+function escapeHtml(s) {
   if (!s) return '';
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-document.addEventListener('DOMContentLoaded', ()=>{
-  // Wire up lookup button and Enter key
-  document.getElementById('lookupBtn').addEventListener('click', doLookup);
-  document.getElementById('conceptId').addEventListener('keydown', (e)=>{ if(e.key==='Enter') doLookup(); });
+function OctopusApp() {
+  const [fhirBase, setFhirBase] = useState('https://tx.ontoserver.csiro.au/fhir');
+  const [conceptId, setConceptId] = useState('138875005');
+  const [system, setSystem] = useState('http://snomed.info/sct');
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState('');
+  const [queryInfo, setQueryInfo] = useState('');
 
-  // Read URL parameters and populate inputs. Show them in the header as Octopus version info.
-  try {
+  useEffect(() => {
+    // Read URL parameters
     const qs = new URLSearchParams(window.location.search);
     const concept = qs.get('concept') || qs.get('code') || '';
     const fhir = qs.get('fhir') || '';
     const valueset = qs.get('valueset') || qs.get('valueSet') || '';
     const tour = qs.get('tour') || '';
+    const sys = qs.get('system') || '';
 
-    if (concept) document.getElementById('conceptId').value = concept;
-    if (fhir) document.getElementById('fhirBase').value = fhir;
-    if (qs.get('system')) document.getElementById('system').value = qs.get('system');
+    if (concept) setConceptId(concept);
+    if (fhir) setFhirBase(fhir);
+    if (sys) setSystem(sys);
 
     const parts = [];
-    if (concept) parts.push(`<strong>concept</strong>: ${escapeHtml(concept)}`);
-    if (valueset) parts.push(`<strong>valueset</strong>: ${escapeHtml(valueset)}`);
-    if (fhir) parts.push(`<strong>fhir</strong>: ${escapeHtml(fhir)}`);
-    if (tour) parts.push(`<strong>tour</strong>: ${escapeHtml(tour)}`);
+    if (concept) parts.push(html`<strong>concept</strong>: ${concept}`);
+    if (valueset) parts.push(html`<strong>valueset</strong>: ${valueset}`);
+    if (fhir) parts.push(html`<strong>fhir</strong>: ${fhir}`);
+    if (tour) parts.push(html`<strong>tour</strong>: ${tour}`);
 
-    const infoEl = document.getElementById('queryInfo');
     if (parts.length) {
-      infoEl.innerHTML = `Params — ${parts.join(' · ')}`;
+      setQueryInfo(html`Params — ${parts.map((p, i) => html`${i > 0 ? ' · ' : ''}${p}`)}`);
     } else {
-      infoEl.textContent = 'No URL parameters detected';
+      setQueryInfo('No URL parameters detected');
     }
 
-    // Auto-run lookup if concept param present
+    // Auto-run if concept provided
     if (concept) {
-      // slight delay so UI shows the populated fields
-      setTimeout(() => { doLookup(); }, 150);
+      setTimeout(() => doLookup(fhir || fhirBase, concept, sys || system), 200);
     }
-  } catch (e) {
-    // ignore parsing errors
+  }, []);
+
+  async function doLookup(fhir = fhirBase, code = conceptId, sys = system) {
+    if (!fhir || !code) {
+      setError('Please provide FHIR server and concept id');
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+    setResult(null);
+
+    const base = fhir.replace(/\/+$/, '');
+    const params = new URLSearchParams({ system: sys, code });
+    const urls = [
+      `${base}/$lookup?${params}`,
+      `${base}/CodeSystem/$lookup?${params}`
+    ];
+
+    let res = null;
+    let ok = false;
+    let lastErr = null;
+
+    for (const url of urls) {
+      try {
+        const r = await fetch(url, { headers: { Accept: 'application/fhir+json,application/json' } });
+        if (!r.ok) {
+          lastErr = `${r.status} ${r.statusText} from ${url}`;
+          continue;
+        }
+        res = await r.json();
+        ok = true;
+        break;
+      } catch (e) {
+        lastErr = e.message;
+      }
+    }
+
+    setLoading(false);
+
+    if (!ok) {
+      setError(`Lookup failed: ${lastErr}`);
+      return;
+    }
+
+    setResult(res);
   }
-});
+
+  function handleLookup() {
+    doLookup();
+  }
+
+  function handleKeyDown(e) {
+    if (e.key === 'Enter') doLookup();
+  }
+
+  function renderDetails() {
+    if (!result) return null;
+
+    const display = [];
+    const params = result.parameter || [];
+
+    if (Array.isArray(params) && params.length) {
+      const fsn = params.find(p => p.name === 'display') || params.find(p => p.name === 'name');
+      const designations = params.filter(p => p.name === 'designation');
+      
+      if (fsn && fsn.valueString) {
+        display.push(html`<div><strong>Display:</strong> ${fsn.valueString}</div>`);
+      }
+      
+      if (designations.length) {
+        const items = designations.map(d => {
+          try {
+            const val = d.part ? d.part.find(p => p.name === 'value') : null;
+            return val && val.valueString ? val.valueString : JSON.stringify(d);
+          } catch(e) { return JSON.stringify(d); }
+        });
+        display.push(html`
+          <div>
+            <strong>Designations:</strong>
+            <ul>${items.map(i => html`<li>${i}</li>`)}</ul>
+          </div>
+        `);
+      }
+    }
+
+    const properties = params.find(p => p.name === 'property');
+    if (properties && Array.isArray(properties.part)) {
+      const rows = properties.part.map(pp => {
+        const n = pp.part && pp.part.find(x => x.name === 'code')?.valueString;
+        const v = pp.part && pp.part.find(x => x.name === 'value')?.valueString;
+        if (n) return html`<div><strong>${n}:</strong> ${v || ''}</div>`;
+        return null;
+      }).filter(Boolean);
+      
+      if (rows.length) {
+        display.push(html`<div><strong>Properties:</strong>${rows}</div>`);
+      }
+    }
+
+    if (!display.length) {
+      display.push(html`<em>No structured display items found — see raw JSON.</em>`);
+    }
+
+    return display;
+  }
+
+  return html`
+    <header class="topbar">
+      <div style=${{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+        <div style=${{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div class="brand">🐙 Octopus</div>
+          <small class="muted">v0.3 — FHIR Terminology Browser</small>
+        </div>
+        <div class="muted" style=${{ fontSize: '0.95rem' }}>${queryInfo}</div>
+      </div>
+      <div class="top-actions">
+        <a href="/static/tree-preact.html" class="btn">Tree View</a>
+      </div>
+    </header>
+
+    <main style=${{ padding: '1rem', maxWidth: '1000px', margin: '0 auto' }}>
+      <section>
+        <h2>Lookup a concept</h2>
+        <div class="form-row">
+          <label class="muted">FHIR Server</label>
+          <input 
+            value=${fhirBase} 
+            onInput=${e => setFhirBase(e.target.value)}
+            style=${{ flex: 1 }}
+          />
+        </div>
+        <div class="form-row">
+          <label class="muted">Concept ID</label>
+          <input 
+            value=${conceptId} 
+            onInput=${e => setConceptId(e.target.value)}
+            onKeyDown=${handleKeyDown}
+          />
+          <button onClick=${handleLookup} disabled=${loading}>
+            ${loading ? 'Loading...' : 'Lookup'}
+          </button>
+        </div>
+        <div class="form-row">
+          <label class="muted">System</label>
+          <input 
+            value=${system} 
+            onInput=${e => setSystem(e.target.value)}
+            style=${{ flex: 1 }}
+          />
+        </div>
+        <p class="muted">
+          The viewer performs a FHIR ${'`$lookup`'} call. CORS and server availability depend on the chosen FHIR endpoint.
+        </p>
+
+        ${error && html`<div class="error-box">${error}</div>`}
+
+        ${result && html`
+          <div>
+            <h3>Result</h3>
+            <div><strong>Lookup succeeded</strong> — showing ${Object.keys(result).length} top-level keys</div>
+            <div class="result-grid">
+              <div class="panel">
+                <h4>Raw JSON</h4>
+                <pre class="json">${JSON.stringify(result, null, 2)}</pre>
+              </div>
+              <div class="panel">
+                <h4>Details</h4>
+                <div>${renderDetails()}</div>
+              </div>
+            </div>
+          </div>
+        `}
+      </section>
+    </main>
+
+    <footer style=${{ textAlign: 'center', padding: '1rem' }}>
+      <small class="muted">🐙 Octopus — Open Clinical Terminology Browser — Preact + htm (no build)</small>
+    </footer>
+  `;
+}
+
+render(html`<${OctopusApp} />`, document.getElementById('app'));
