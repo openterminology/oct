@@ -7,7 +7,7 @@ A command-line tool for managing the Open Clinical Terminology.
 
 import click
 import secrets
-import os
+from datetime import datetime, timezone
 from pathlib import Path
 
 
@@ -34,6 +34,19 @@ def get_terms_directory():
     tools_dir = Path(__file__).parent
     terms_dir = tools_dir.parent / "terms"
     return terms_dir
+
+
+def log_term_creation(identifier):
+    """Append a creation log entry for the new term."""
+    terms_dir = get_terms_directory()
+    log_path = terms_dir / "terms"
+
+    timestamp = datetime.now().replace(microsecond=0).isoformat()
+
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+
+    with log_path.open("a", encoding="utf-8") as log_file:
+        log_file.write(f"{timestamp} {identifier}\n")
 
 
 @click.group()
@@ -69,6 +82,7 @@ def new(directory, language):
         if not filepath.exists():
             # Create empty file
             filepath.touch()
+            log_term_creation(identifier)
             click.echo(f"Created new concept file: {filepath}")
             click.echo(f"Concept ID: {identifier}")
             return
