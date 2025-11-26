@@ -1,0 +1,10 @@
+services:
+  caddy:
+    image: caddy:2-alpine
+    working_dir: /etc/caddy
+    ports:
+      - "8765:8765"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./terms:/etc/caddy/terms:ro
+    restart: unless-stopped
