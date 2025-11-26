@@ -1,5 +1,10 @@
 # `oct` - An open clinical terminology
 
+<!-- UNHIDE THIS WHEN WE HAVE MORE THAN 0 SPONSORS :-) <img alt="GitHub Sponsors" src="https://img.shields.io/github/sponsors/bawmedical">
+ -->
+
+If you believe in what we are trying to achieve with `oct`lease consider [sponsoring](https://github.com/sponsors/bawmedical) the project so that we can have team members working on the project full-time. 
+
 ## Overview
 
 This is an open source clinical terminology project. It is not yet ready to use, but feel free to contribute.
