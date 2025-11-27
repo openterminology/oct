@@ -1,0 +1,19 @@
+#!/usr/bin/env python3
+"""
+OCT executable wrapper.
+
+This is a thin wrapper that calls the main CLI implementation from the tools directory.
+"""
+
+import sys
+from pathlib import Path
+
+# Add tools directory to Python path
+tools_dir = Path(__file__).parent / "tools"
+sys.path.insert(0, str(tools_dir))
+
+# Import and run the CLI
+from oct import cli
+
+if __name__ == '__main__':
+    cli()

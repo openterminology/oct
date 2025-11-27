@@ -1,0 +1,8 @@
+{
+	admin off
+}
+
+:8765 {
+	root * ./terms
+	file_server browse
+}
