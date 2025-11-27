@@ -1,0 +1,56 @@
+site_name: Open Clinical Terminology (`oct`)
+site_description: >-
+  Open Clinical Terminology (`oct`) – an open, community-driven clinical terminology.
+site_url: https://openclinicalterminology.org
+repo_url: https://github.com/openclinicalterminology/oct
+repo_name: openclinicalterminology/oct
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.sections
+    - navigation.tabs
+    - navigation.top
+    - content.code.copy
+    - search.suggest
+    - search.highlight
+    - toc.integrate
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: blue
+    - scheme: slate
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+  icon:
+    repo: fontawesome/brands/github
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - codehilite
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - For Contributors:
+      - Overview: contributors/index.md
+      - How to contribute: contributors/how-to-contribute.md
+      - Code of conduct: code-of-conduct.md
+  - For Informaticians:
+      - Overview: informaticians/index.md
+  - For Developers:
+      - Overview: developers/index.md
+      - Tooling (CLI, APIs): developers/tooling.md
+      - Documentation setup: developers/docs-setup.md
+  - Reference:
+      - Attribution and licensing: attribution.md
+      - Project specification: README.md
