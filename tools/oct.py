@@ -9,7 +9,8 @@ import click
 import secrets
 from datetime import datetime, timezone
 from pathlib import Path
-
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 # Crockford Base32 alphabet in lowercase (excludes i, l, o, u to avoid confusion)
 CROCKFORD_BASE32 = "0123456789abcdefghjkmnpqrstvwxyz"
