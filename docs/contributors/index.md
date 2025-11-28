@@ -10,3 +10,8 @@ Topics we can cover here:
 - Communication channels and meeting notes
 
 > TODO: Flesh this out with concrete contribution workflows and links to issues, discussion forums, and governance documents.
+
+## Contributors
+
+- Dr Marcus Baw MBChB(Hons) MRCGP FFCI - BDFL and Lead Maintainer
+- Tomomi Yamano - Contributor (burai.live)
