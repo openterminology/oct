@@ -7,13 +7,13 @@ A command-line tool for managing the Open Clinical Terminology.
 
 import click
 import secrets
-import os
+from datetime import datetime, timezone
 from pathlib import Path
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-# Crockford Base32 alphabet (excludes 0, 1, I, L, O, U to avoid confusion)
-CROCKFORD_BASE32 = "0123456789ABCDEFGHJKMNPQRSTVWXYZ"
+# Crockford Base32 alphabet in lowercase (excludes i, l, o, u to avoid confusion)
+CROCKFORD_BASE32 = "0123456789abcdefghjkmnpqrstvwxyz"
 
 
 def generate_crockford_base32_id(length=6):
@@ -35,6 +35,19 @@ def get_terms_directory():
     tools_dir = Path(__file__).parent
     terms_dir = tools_dir.parent / "terms"
     return terms_dir
+
+
+def log_term_creation(identifier):
+    """Append a creation log entry for the new term."""
+    terms_dir = get_terms_directory()
+    log_path = terms_dir / "terms"
+
+    timestamp = datetime.now().replace(microsecond=0).isoformat()
+
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+
+    with log_path.open("a", encoding="utf-8") as log_file:
+        log_file.write(f"{timestamp} {identifier}\n")
 
 
 @click.group()
@@ -73,12 +86,13 @@ def new(directory, language):
     max_attempts = 1000
     for attempt in range(max_attempts):
         identifier = generate_crockford_base32_id()
-        filepath = target_dir / f"{identifier}"
-
+        filepath = target_dir / f"{identifier}.oct"
+        
         # Check if file already exists
         if not filepath.exists():
             # Create empty file
             filepath.touch()
+            log_term_creation(identifier)
             click.echo(f"Created new concept file: {filepath}")
             click.echo(f"Concept ID: {identifier}")
             return
@@ -115,9 +129,10 @@ def search(query, directory, language):
         click.echo(f"Directory not found: {search_dir}")
         return
     found = False
-    for filepath in search_dir.glob("*"):
-        if query.lower() in filepath.name.lower():
-            click.echo(f"Found by filename: {filepath}")
+    for filepath in search_dir.rglob('*.oct'):
+        concept_id = filepath.stem
+        if query.lower() in concept_id.lower():
+            click.echo(f"Found by filename: {concept_id}")
             found = True
         elif filepath.is_file():
             try:
