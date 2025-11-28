@@ -38,7 +38,7 @@ Example:
 # Creates a file in the specified directory
 ```
 #### `oct search`
-seach an existing concept file with a unique 6-character Crockford Base32 identifier.
+search an existing concept file with a unique 6-character Crockford Base32 identifier.
 
 Example:
 ```bash
