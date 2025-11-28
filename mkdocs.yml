@@ -1,9 +1,9 @@
 site_name: oct - the Open Clinical Terminology 
 site_description: >-
   Open Clinical Terminology (`oct`) - an open, community-driven clinical terminology.
-site_url: https://openclinicalterminology.org
-repo_url: https://github.com/openclinicalterminology/oct
-repo_name: openclinicalterminology/oct
+site_url: https://openterminology.org
+repo_url: https://github.com/openterminology/oct
+repo_name: openterminology/oct
 
 theme:
   name: material
