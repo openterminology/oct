@@ -8,3 +8,14 @@ services:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - ./terms:/etc/caddy/terms:ro
     restart: unless-stopped
+
+  mkdocs:
+    build:
+      context: .
+      dockerfile: Dockerfile.mkdocs
+    ports:
+      - "8764:8764"
+    volumes:
+      - .:/project
+    working_dir: /project
+    restart: unless-stopped
