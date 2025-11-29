@@ -20,12 +20,27 @@ const sampleData = {
   ]
 };
 
+/**
+ * Perform a pre-order traversal of a tree, invoking a callback for each visited node.
+ *
+ * Traversal visits the provided node before its children and covers both `children` and `_children` branches.
+ * @param {Object} node - The tree node to start traversal from; may contain `children` and/or `_children` arrays.
+ * @param {function(Object): void} fn - Callback invoked for each visited node with the node as its sole argument.
+ */
 function traverse(node, fn) {
   fn(node);
   if (node.children) node.children.forEach(n => traverse(n, fn));
   if (node._children) node._children.forEach(n => traverse(n, fn));
 }
 
+/**
+ * Collapse every expanded node in a hierarchical tree by moving its `children` to `_children`.
+ *
+ * Mutates the provided tree in-place: for each node that has a `children` array, that array is moved
+ * to the node's `_children` property and `children` is set to `null`, effectively marking the node as collapsed.
+ *
+ * @param {Object} data - Root node of the hierarchical tree to collapse. Nodes are expected to use `children`/`_children` to represent expanded/collapsed state.
+ */
 function collapseAll(data) {
   traverse(data, d => {
     if (d.children) {
@@ -35,6 +50,14 @@ function collapseAll(data) {
   });
 }
 
+/**
+ * Expand every collapsed node in a hierarchical tree by restoring stored children.
+ *
+ * Traverses the tree rooted at `data` and, for any node that has `_children`,
+ * moves them to `children` and clears `_children`, mutating the tree in place.
+ *
+ * @param {Object} data - Root of the hierarchical tree (nodes may contain `children` and `_children`).
+ */
 function expandAll(data) {
   traverse(data, d => {
     if (d._children) {
@@ -44,6 +67,20 @@ function expandAll(data) {
   });
 }
 
+/**
+ * Render an interactive collapsible tree visualization as an SVG.
+ *
+ * The component displays hierarchical `data` as a D3 layout and lets users
+ * toggle nodes by clicking them. It also attaches global controls:
+ * elements with IDs "expandAll" and "collapseAll" will expand or collapse the
+ * entire tree when present in the document.
+ *
+ * @param {Object} props
+ * @param {Object} props.data - Root of the hierarchical data. Each node should have a `name` property and may have `children` (expanded) or `_children` (collapsed).
+ * @param {number} [props.width=960] - Minimum SVG width; the viewBox may expand to fit the tree.
+ * @param {number} [props.height=600] - Minimum SVG height; the viewBox may expand to fit the tree.
+ * @returns {HTMLElement} An HTM/Preact element containing the SVG tree.
+ */
 function Tree({ data, width = 960, height = 600 }) {
   const [treeData, setTreeData] = useState(data);
   const [version, setVersion] = useState(0); // force re-render after mutating treeData
@@ -112,6 +149,12 @@ function Tree({ data, width = 960, height = 600 }) {
   `;
 }
 
+/**
+ * Root application component that renders the Tree component with a cloned sample dataset.
+ *
+ * The sample data is cloned before being passed to Tree to prevent accidental mutation of the original dataset.
+ * @returns {import('preact').VNode} The Preact virtual DOM node for the application.
+ */
 function App() {
   return html`<div>${html`<${Tree} data=${structuredClone(sampleData)} />`}</div>`;
 }

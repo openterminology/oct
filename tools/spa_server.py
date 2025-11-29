@@ -17,10 +17,23 @@ import os
 class SPARequestHandler(http.server.SimpleHTTPRequestHandler):
     def send_error(self, code, message=None, explain=None):
         # Override to avoid sending default error pages for GET — we'll fallback
+        """
+        Send an HTTP error response using the base SimpleHTTPRequestHandler implementation.
+        
+        Parameters:
+            code (int): HTTP status code to send.
+            message (str | None): Optional short status message to include.
+            explain (str | None): Optional detailed explanation to include.
+        """
         super().send_error(code, message, explain)
 
     def do_GET(self):
         # Serve existing files normally
+        """
+        Handle HTTP GET requests with SPA-friendly fallback.
+        
+        If the requested path maps to an existing file under the served directory, serve that file normally. If no file matches, serve `<directory>/static/index.html` with a 200 status and `text/html; charset=utf-8` when that fallback file exists. If the fallback file is absent, delegate to the base handler's GET implementation (which produces the normal 404 behavior).
+        """
         path = self.translate_path(self.path)
         if os.path.exists(path) and os.path.isfile(path):
             return http.server.SimpleHTTPRequestHandler.do_GET(self)
@@ -40,6 +53,11 @@ class SPARequestHandler(http.server.SimpleHTTPRequestHandler):
 
 
 def main():
+    """
+    Start a static HTTP server that serves files from a specified directory and falls back to /static/index.html for SPA routes.
+    
+    Parses command-line options --port (default 8000) and --dir (default: current working directory), changes the process working directory to the provided directory, configures the SPA request handler for that directory, and starts an HTTP server on the given port. Prints a startup message and stops gracefully on KeyboardInterrupt.
+    """
     p = argparse.ArgumentParser()
     p.add_argument('--port', type=int, default=8000)
     p.add_argument('--dir', default=os.getcwd())

@@ -4,11 +4,27 @@ import htm from 'https://esm.sh/htm@3.1.1';
 
 const html = htm.bind(h);
 
+/**
+ * Convert a value to a safe HTML string by escaping `&`, `<`, and `>`.
+ * @param {*} s - Value to escape; `null` or `undefined` yield an empty string.
+ * @returns {string} The input converted to a string with `&`, `<`, and `>` replaced by their HTML entities.
+ */
 function escapeHtml(s) {
   if (!s) return '';
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
+/**
+ * Preact component that provides a UI to perform FHIR $lookup calls and display the results.
+ *
+ * The component reads optional URL query parameters (concept/code, fhir, valueset/valueSet, tour, system)
+ * on mount and may auto-run a lookup if a concept is provided. It renders inputs for FHIR server, concept ID,
+ * and system, performs a lookup against two candidate endpoints ({base}/$lookup and {base}/CodeSystem/$lookup),
+ * handles network and non-OK responses, and displays either an error, the raw JSON response, or a structured
+ * details panel extracted from the lookup `parameter` array (display/name, designations, and properties).
+ *
+ * @returns {JSX.Element} The Octopus terminology browser UI element.
+ */
 function OctopusApp() {
   const [fhirBase, setFhirBase] = useState('https://tx.ontoserver.csiro.au/fhir');
   const [conceptId, setConceptId] = useState('138875005');
