@@ -169,10 +169,6 @@ A list of resources and references that have informed the development of `oct`:
 
 For questions, discussions, or to get involved, please visit the [Open Health Hub `oct` Category](https://openhealthhub.org/c/oct/58) or contact the maintainers (info@openterminology.org).
 
-## Contributors
-
-- Dr Marcus Baw MBChB(Hons) MRCGP FFCI - BDFL and Lead Maintainer
-- Tomomi Yamano - Contributor (burai.live)
 
 ## RFCs
 

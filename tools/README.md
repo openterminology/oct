@@ -56,6 +56,19 @@ Example:
 ./oct.py new --directory /custom/path
 # Creates a file in the specified directory
 ```
+#### `oct search`
+search an existing concept file with a unique 6-character Crockford Base32 identifier.
+
+Example:
+```bash
+# Search by keyword in file name or content
+./oct.py search "delusion"
+
+# Search for a specific concept ID
+./oct.py search "A1B2C3"
+
+# Specify a custom directory
+./oct.py search "anxiety" --directory ./custom_terms/en-GB
 
 ## Technical Details
 
