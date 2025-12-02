@@ -12,10 +12,15 @@ theme:
   name: material
   language: en
   features:
+    - content.action.edit # explicitly adds edit button (Material4MkDocs9.0)
+    - content.action.view # explicitly adds view button (Material4MkDocs9.0)
+    - content.code.copy
+    - content.code.select
+    - content.code.annotate
+    - navigation.footer # explicitly adds footer prev/next (Material4MkDocs9.0)
     - navigation.sections
     - navigation.tabs
     - navigation.top
-    - content.code.copy
     - search.suggest
     - search.highlight
     - toc.integrate
