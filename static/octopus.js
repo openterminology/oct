@@ -171,77 +171,84 @@ function OctopusApp() {
   }
 
   return html`
-    <header class="topbar">
-      <div style=${{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-        <div style=${{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <div class="brand">🐙 Octopus</div>
-          <small class="muted">v0.3 — FHIR Terminology Browser</small>
+    <div style=${{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <header class="topbar">
+        <div style=${{ display: 'flex', flexDirection: 'column', gap: '4px', flex: '1' }}>
+          <div style=${{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div class="brand">🐙 Universal Octopus Viewer</div>
+            <small class="muted">v0.3 — FHIR Terminology Browser</small>
+          </div>
+          <div class="muted" style=${{ fontSize: '0.95rem' }}>${queryInfo}</div>
         </div>
-        <div class="muted" style=${{ fontSize: '0.95rem' }}>${queryInfo}</div>
-      </div>
-      <div class="top-actions">
-        <a href="/static/tree-preact.html" class="btn">Tree View</a>
-      </div>
-    </header>
+        <nav class="tabs">
+          <a href="octopus.html?system=${encodeURIComponent(system)}" class="tab active">Lookup</a>
+          <a href="tree-preact.html?system=${encodeURIComponent(system)}" class="tab">Tree View</a>
+        </nav>
+      </header>
 
-    <main style=${{ padding: '1rem', maxWidth: '1000px', margin: '0 auto' }}>
-      <section>
-        <h2>Lookup a concept</h2>
-        <div class="form-row">
-          <label class="muted">FHIR Server</label>
-          <input 
-            value=${fhirBase} 
-            onInput=${e => setFhirBase(e.target.value)}
-            style=${{ flex: 1 }}
-          />
-        </div>
-        <div class="form-row">
-          <label class="muted">Concept ID</label>
-          <input 
-            value=${conceptId} 
-            onInput=${e => setConceptId(e.target.value)}
-            onKeyDown=${handleKeyDown}
-          />
-          <button onClick=${handleLookup} disabled=${loading}>
-            ${loading ? 'Loading...' : 'Lookup'}
-          </button>
-        </div>
-        <div class="form-row">
-          <label class="muted">System</label>
-          <input 
-            value=${system} 
-            onInput=${e => setSystem(e.target.value)}
-            style=${{ flex: 1 }}
-          />
-        </div>
-        <p class="muted">
-          The viewer performs a FHIR ${'`$lookup`'} call. CORS and server availability depend on the chosen FHIR endpoint.
-        </p>
+      <main style=${{ padding: '1rem', maxWidth: '1000px', margin: '0 auto', flex: '1' }}>
+        <section>
+          <h2>Lookup a concept</h2>
+          <div class="form-row">
+            <label class="muted">FHIR Server</label>
+            <input 
+              value=${fhirBase} 
+              onInput=${e => setFhirBase(e.target.value)}
+              style=${{ flex: 1 }}
+            />
+          </div>
+          <div class="form-row">
+            <label class="muted">Concept ID</label>
+            <input 
+              value=${conceptId} 
+              onInput=${e => setConceptId(e.target.value)}
+              onKeyDown=${handleKeyDown}
+            />
+            <button onClick=${handleLookup} disabled=${loading}>
+              ${loading ? 'Loading...' : 'Lookup'}
+            </button>
+          </div>
+          <div class="form-row">
+            <label class="muted">System</label>
+            <input 
+              value=${system} 
+              onInput=${e => setSystem(e.target.value)}
+              style=${{ flex: 1 }}
+            />
+          </div>
+          <p class="muted">
+            The viewer performs a FHIR ${'`$lookup`'} call. CORS and server availability depend on the chosen FHIR endpoint.
+          </p>
 
-        ${error && html`<div class="error-box">${error}</div>`}
+          ${error && html`<div class="error-box">${error}</div>`}
 
-        ${result && html`
-          <div>
-            <h3>Result</h3>
-            <div><strong>Lookup succeeded</strong> — showing ${Object.keys(result).length} top-level keys</div>
-            <div class="result-grid">
-              <div class="panel">
-                <h4>Raw JSON</h4>
-                <pre class="json">${JSON.stringify(result, null, 2)}</pre>
-              </div>
-              <div class="panel">
-                <h4>Details</h4>
-                <div>${renderDetails()}</div>
+          ${result && html`
+            <div>
+              <h3>Result</h3>
+              <div><strong>Lookup succeeded</strong> — showing ${Object.keys(result).length} top-level keys</div>
+              <div class="result-grid">
+                <div class="panel">
+                  <h4>Raw JSON</h4>
+                  <pre class="json">${JSON.stringify(result, null, 2)}</pre>
+                </div>
+                <div class="panel">
+                  <h4>Details</h4>
+                  <div>${renderDetails()}</div>
+                </div>
               </div>
             </div>
-          </div>
-        `}
-      </section>
-    </main>
+          `}
+        </section>
+      </main>
 
-    <footer style=${{ textAlign: 'center', padding: '1rem' }}>
-      <small class="muted">🐙 Octopus — Open Clinical Terminology Browser — Preact + htm (no build)</small>
-    </footer>
+      <footer style=${{ textAlign: 'center', padding: '1rem', marginTop: 'auto', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+        <small class="muted">
+          🐙 Universal Octopus Viewer— Open Clinical Terminology Browser — Licensed under Apache 2.0 & CC-BY 4.0 by OCT
+          <br />
+          <a href="https://openhealthhub.org/c/oct/58" target="_blank" rel="noopener" style=${{ color: '#6b9bd1', textDecoration: 'none' }}>Contact Us</a>
+        </small>
+      </footer>
+    </div>
   `;
 }
 
