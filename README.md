@@ -110,7 +110,7 @@ When redistributing or building on `oct` materials under CC-BY 4.0, attribution 
 
 #### Example
 
-> “This work includes content from the Open Clinical Terminology (`oct`) project (https://github.com/openclinicalterminology/oct), licensed under CC-BY 4.0.”
+> “This work includes content from the Open Clinical Terminology (`oct`) project (https://github.com/openterminology/oct), licensed under CC-BY 4.0.”
 
 ## Community Contributions <kbd>[RFC](#rfcs)</kbd>
 
@@ -129,7 +129,7 @@ In case of disputes, decisions default to the principle of **maximising openness
 
 - Forks may not use the names _“Open Clinical Terminology”_, _“`oct`”_, or the official logo without written permission, which can be obtained by contacting the maintainers.
 
-- The canonical version is maintained under the `openclinicalterminology` organisation and represented by the Steering Committee.
+- The canonical version is maintained under the `openterminology` organisation and represented by the Steering Committee.
 
 - Transparent governance and visible contributor credit ensure the community recognises the authentic lineage of the project.
 
