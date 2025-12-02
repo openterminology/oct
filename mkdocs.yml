@@ -53,5 +53,6 @@ nav:
       - Documentation setup: developers/docs-setup.md
   - Reference:
       - Attribution and licensing: attribution.md
+      - Foundation and custodianship: foundation.md
       - Project specification: README.md
 

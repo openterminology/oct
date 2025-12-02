@@ -200,7 +200,7 @@ Unless explicitly noted otherwise, all source code, scripts, and configuration f
 		same "printed page" as the copyright notice for easier
 		identification within third-party archives.
 
-	Copyright [2024-2025] Open Clinical Terminology (`oct`) contributors
+        Copyright 2022-2025 Baw Medical Ltd
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.

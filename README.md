@@ -145,7 +145,7 @@ Collaborations that benefit the open ecosystem are actively encouraged through o
 
 ## Future Foundation <kbd>[RFC](#rfcs)</kbd>
 
-The long-term intention is to establish a non-profit **`oct` Foundation** to act as the legal vehicle for all intellectual property - clinical terms, code, graphs, trademarks, domain names, and governance documents. Until then, these are managed collectively by the project’s founding contributors, led by Dr Marcus Baw as BDFL.
+Copyright 2022-2025 Baw Medical Ltd. Baw Medical currently acts as the legal custodian and owner of `oct`, stewarding the assets on behalf of the community. The long-term intention is to establish a non-profit **`oct` Foundation** to act as the legal vehicle for all intellectual property—clinical terms, code, graphs, trademarks, domain names, and governance documents. The foundation may be created specifically for `oct` or use an existing trusted organisation. Until that transition is complete, Baw Medical will continue to hold the assets and governance responsibilities as custodian, with Dr Marcus Baw serving as BDFL.
 
 ## Use of AI/LLMs <kbd>[RFC](#rfcs)</kbd>
 

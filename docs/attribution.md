@@ -8,7 +8,7 @@ Add this block to your project:
 
 ```
 This project uses software from Open Clinical Terminology (`oct`), licensed under the Apache License, Version 2.0.
-Copyright (c) 2024 Open Clinical Terminology (`oct`) contributors. See https://github.com/openclinicalterminology/oct for details.
+Copyright (c) 2022-2025 Baw Medical Ltd. See https://github.com/openclinicalterminology/oct for details.
 ```
 
 ## If you use `oct` terminology or knowledge (CC BY 4.0)
@@ -26,7 +26,7 @@ Add this combined block:
 
 ```
 This work incorporates Open Clinical Terminology (`oct`).
-- Software components are licensed under the Apache License, Version 2.0. Copyright (c) 2024-2025 Open Clinical Terminology (`oct`) contributors.
+- Software components are licensed under the Apache License, Version 2.0. Copyright (c) 2022-2025 Baw Medical Ltd.
 - Terminology and knowledge are licensed under Creative Commons Attribution 4.0 International (CC BY 4.0). Changes (if any) are indicated in this work.
 Source: https://github.com/openclinicalterminology/oct
 ```
