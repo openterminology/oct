@@ -110,7 +110,7 @@ When redistributing or building on `oct` materials under CC-BY 4.0, attribution 
 
 #### Example
 
-> “This work includes content from the Open Clinical Terminology (`oct`) project (https://github.com/openclinicalterminology/oct), licensed under CC-BY 4.0.”
+> “This work includes content from the Open Clinical Terminology (`oct`) project (https://github.com/openterminology/oct), licensed under CC-BY 4.0.”
 
 ## Community Contributions <kbd>[RFC](#rfcs)</kbd>
 
@@ -129,7 +129,7 @@ In case of disputes, decisions default to the principle of **maximising openness
 
 - Forks may not use the names _“Open Clinical Terminology”_, _“`oct`”_, or the official logo without written permission, which can be obtained by contacting the maintainers.
 
-- The canonical version is maintained under the `openclinicalterminology` organisation and represented by the Steering Committee.
+- The canonical version is maintained under the `openterminology` organisation and represented by the Steering Committee.
 
 - Transparent governance and visible contributor credit ensure the community recognises the authentic lineage of the project.
 
@@ -145,7 +145,7 @@ Collaborations that benefit the open ecosystem are actively encouraged through o
 
 ## Future Foundation <kbd>[RFC](#rfcs)</kbd>
 
-The long-term intention is to establish a non-profit **`oct` Foundation** to act as the legal vehicle for all intellectual property - clinical terms, code, graphs, trademarks, domain names, and governance documents. Until then, these are managed collectively by the project’s founding contributors, led by Dr Marcus Baw as BDFL.
+Copyright 2022-2025 Baw Medical Ltd. Baw Medical currently acts as the legal custodian and owner of `oct`, stewarding the assets on behalf of the community. The long-term intention is to establish a non-profit **`oct` Foundation** to act as the legal vehicle for all intellectual property—clinical terms, code, graphs, trademarks, domain names, and governance documents. The foundation may be created specifically for `oct` or use an existing trusted organisation. Until that transition is complete, Baw Medical will continue to hold the assets and governance responsibilities as custodian, with Dr Marcus Baw serving as BDFL.
 
 ## Use of AI/LLMs <kbd>[RFC](#rfcs)</kbd>
 
