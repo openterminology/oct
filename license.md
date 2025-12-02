@@ -2,8 +2,8 @@
 
 `oct` combines software components with domain knowledge and terminology. To clarify permitted use, `oct` is offered under two complementary licenses:
 
-1. **Software (code, scripts, and configuration)** – Licensed under the Apache License, Version 2.0.
-2. **Terminology and knowledge assets** – Licensed under the Creative Commons Attribution 4.0 International License (CC BY 4.0).
+1. **Software (code, scripts, and configuration)** – Licensed under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0).
+2. **Terminology and knowledge assets** – Licensed under the [Creative Commons Attribution 4.0 International License (CC BY 4.0)](https://creativecommons.org/licenses/by-sa/4.0/).
 
 If you use both the software and the terminology together, you must comply with both licenses. The sections below explain what each license covers and how to attribute properly.
 
@@ -14,7 +14,7 @@ Unless explicitly noted otherwise, all source code, scripts, and configuration f
 ```
 											Apache License
 									Version 2.0, January 2004
-								http://www.apache.org/licenses/
+								https://www.apache.org/licenses/LICENSE-2.0
 
 	TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
 

@@ -16,6 +16,10 @@ services:
     ports:
       - "8764:8764"
     volumes:
-      - .:/project
-    working_dir: /project
+      - .:/mkdocs
+    working_dir: /mkdocs
     restart: unless-stopped
+    # NOTE: explicit --live-reload because of upstream Click bug
+    # https://github.com/squidfunk/mkdocs-material/issues/8478
+    # Can be removed when MkDocs/Click is fixed
+    command: sh -c "mkdocs serve --livereload --dev-addr=0.0.0.0:8764"
