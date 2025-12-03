@@ -10,7 +10,7 @@ This document summarises how the `oct` command-line interface behaves today, bas
 
 ## Command Reference
 
-### `oct new`
+### `oct term new`
 Create an empty concept file with a unique identifier.
 - **Options**
   - `--directory, -d`: override the target directory (defaults to `terms/<language>/`).
