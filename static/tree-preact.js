@@ -214,7 +214,11 @@ function Tree({ data, width = 960, height = 600 }) {
     if (eBtn) eBtn.onclick = () => { expandAll(treeData); setVersion(v => v + 1); };
     if (cBtn) cBtn.onclick = () => { collapseAll(treeData); setVersion(v => v + 1); };
     
-    return () => window.removeEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      if (eBtn) eBtn.onclick = null;
+      if (cBtn) cBtn.onclick = null;
+    };
   }, [treeData]);
 
   // compute layout with dynamic spacing
