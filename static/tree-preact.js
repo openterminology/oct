@@ -11,101 +11,115 @@ const sampleData = {
   children: [
     {
       name: 'Diseases & Disorders',
+      code: '64572001',
       children: [
         { 
-          name: 'Cardiovascular Diseases', 
+          name: 'Cardiovascular Diseases',
+          code: '49601007',
           children: [
             { 
               name: 'Heart Diseases',
+              code: '56265001',
               children: [
-                { name: 'Myocardial Infarction' },
-                { name: 'Coronary Artery Disease' },
-                { name: 'Heart Failure' }
+                { name: 'Myocardial Infarction', code: '22298006' },
+                { name: 'Coronary Artery Disease', code: '53741008' },
+                { name: 'Heart Failure', code: '84114007' }
               ]
             },
             { 
               name: 'Vascular Diseases',
+              code: '27550009',
               children: [
-                { name: 'Hypertension' },
-                { name: 'Atherosclerosis' },
-                { name: 'Deep Vein Thrombosis' }
+                { name: 'Hypertension', code: '38341003' },
+                { name: 'Atherosclerosis', code: '38716007' },
+                { name: 'Deep Vein Thrombosis', code: '132281000119108' }
               ]
             }
           ]
         },
         { 
-          name: 'Respiratory Diseases', 
+          name: 'Respiratory Diseases',
+          code: '50043002',
           children: [
-            { name: 'Asthma' },
-            { name: 'COPD' },
-            { name: 'Pneumonia' },
-            { name: 'Tuberculosis' }
+            { name: 'Asthma', code: '195967001' },
+            { name: 'COPD', code: '13645005' },
+            { name: 'Pneumonia', code: '233604007' },
+            { name: 'Tuberculosis', code: '56717001' }
           ]
         },
         {
           name: 'Neurological Disorders',
+          code: '118940003',
           children: [
-            { name: 'Stroke' },
-            { name: 'Epilepsy' },
-            { name: 'Migraine' },
-            { name: "Parkinson's Disease" },
-            { name: "Alzheimer's Disease" }
+            { name: 'Stroke', code: '230690007' },
+            { name: 'Epilepsy', code: '84757009' },
+            { name: 'Migraine', code: '37796009' },
+            { name: "Parkinson's Disease", code: '49049000' },
+            { name: "Alzheimer's Disease", code: '26929004' }
           ]
         },
         {
           name: 'Infectious Diseases',
+          code: '40733004',
           children: [
-            { name: 'Viral Infections', children: [{ name: 'Influenza' }, { name: 'COVID-19' }, { name: 'HIV/AIDS' }] },
-            { name: 'Bacterial Infections', children: [{ name: 'Sepsis' }, { name: 'Strep Throat' }] }
+            { name: 'Viral Infections', code: '34014006', children: [{ name: 'Influenza', code: '6142004' }, { name: 'COVID-19', code: '840539006' }, { name: 'HIV/AIDS', code: '86406008' }] },
+            { name: 'Bacterial Infections', code: '301811001', children: [{ name: 'Sepsis', code: '91302008' }, { name: 'Strep Throat', code: '43878008' }] }
           ]
         }
       ]
     },
     { 
       name: 'Procedures',
+      code: '71388002',
       children: [
         {
           name: 'Surgical Procedures',
+          code: '387713003',
           children: [
-            { name: 'Cardiac Surgery', children: [{ name: 'CABG' }, { name: 'Valve Replacement' }] },
-            { name: 'Orthopedic Surgery', children: [{ name: 'Hip Replacement' }, { name: 'Knee Arthroscopy' }] }
+            { name: 'Cardiac Surgery', code: '64915003', children: [{ name: 'CABG', code: '232717009' }, { name: 'Valve Replacement', code: '257903006' }] },
+            { name: 'Orthopedic Surgery', code: '84138008', children: [{ name: 'Hip Replacement', code: '52734007' }, { name: 'Knee Arthroscopy', code: '179344006' }] }
           ]
         },
         {
           name: 'Diagnostic Procedures',
+          code: '103693007',
           children: [
-            { name: 'Imaging', children: [{ name: 'X-Ray' }, { name: 'CT Scan' }, { name: 'MRI' }] },
-            { name: 'Laboratory Tests', children: [{ name: 'Blood Count' }, { name: 'Metabolic Panel' }] }
+            { name: 'Imaging', code: '363679005', children: [{ name: 'X-Ray', code: '168537006' }, { name: 'CT Scan', code: '77477000' }, { name: 'MRI', code: '113091000' }] },
+            { name: 'Laboratory Tests', code: '269814003', children: [{ name: 'Blood Count', code: '26604007' }, { name: 'Metabolic Panel', code: '166312007' }] }
           ]
         }
       ]
     },
     {
       name: 'Medications',
+      code: '410942007',
       children: [
-        { name: 'Analgesics', children: [{ name: 'Acetaminophen' }, { name: 'Ibuprofen' }, { name: 'Morphine' }] },
-        { name: 'Antibiotics', children: [{ name: 'Amoxicillin' }, { name: 'Ciprofloxacin' }] },
-        { name: 'Cardiovascular Drugs', children: [{ name: 'Beta Blockers' }, { name: 'ACE Inhibitors' }] }
+        { name: 'Analgesics', code: '373265006', children: [{ name: 'Acetaminophen', code: '387517004' }, { name: 'Ibuprofen', code: '387207008' }, { name: 'Morphine', code: '373529000' }] },
+        { name: 'Antibiotics', code: '255631004', children: [{ name: 'Amoxicillin', code: '372687004' }, { name: 'Ciprofloxacin', code: '387048002' }] },
+        { name: 'Cardiovascular Drugs', code: '373254001', children: [{ name: 'Beta Blockers', code: '373254001' }, { name: 'ACE Inhibitors', code: '372733002' }] }
       ]
     },
     {
       name: 'Anatomical Structures',
+      code: '91723000',
       children: [
         { 
           name: 'Body Systems',
+          code: '123037004',
           children: [
-            { name: 'Cardiovascular System', children: [{ name: 'Heart' }, { name: 'Blood Vessels' }] },
-            { name: 'Respiratory System', children: [{ name: 'Lungs' }, { name: 'Trachea' }] },
-            { name: 'Nervous System', children: [{ name: 'Brain' }, { name: 'Spinal Cord' }] }
+            { name: 'Cardiovascular System', code: '113257007', children: [{ name: 'Heart', code: '80891009' }, { name: 'Blood Vessels', code: '59820001' }] },
+            { name: 'Respiratory System', code: '20139000', children: [{ name: 'Lungs', code: '39607008' }, { name: 'Trachea', code: '44567001' }] },
+            { name: 'Nervous System', code: '25087005', children: [{ name: 'Brain', code: '12738006' }, { name: 'Spinal Cord', code: '2748008' }] }
           ]
         }
       ]
     },
     {
       name: 'Observations',
+      code: '363787002',
       children: [
-        { name: 'Vital Signs', children: [{ name: 'Blood Pressure' }, { name: 'Heart Rate' }, { name: 'Temperature' }, { name: 'Oxygen Saturation' }] },
-        { name: 'Symptoms', children: [{ name: 'Pain' }, { name: 'Fever' }, { name: 'Fatigue' }, { name: 'Nausea' }] }
+        { name: 'Vital Signs', code: '118227000', children: [{ name: 'Blood Pressure', code: '75367002' }, { name: 'Heart Rate', code: '364075005' }, { name: 'Temperature', code: '386725007' }, { name: 'Oxygen Saturation', code: '431314004' }] },
+        { name: 'Symptoms', code: '418799008', children: [{ name: 'Pain', code: '22253000' }, { name: 'Fever', code: '386661006' }, { name: 'Fatigue', code: '84229001' }, { name: 'Nausea', code: '422587007' }] }
       ]
     }
   ]
@@ -177,6 +191,10 @@ function Tree({ data, width = 960, height = 600 }) {
   const [version, setVersion] = useState(0); // force re-render after mutating treeData
   const [dimensions, setDimensions] = useState({ width, height });
   const [zoomLevel, setZoomLevel] = useState(1);
+  const [tooltip, setTooltip] = useState(null);
+  const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
+  const [isPanning, setIsPanning] = useState(false);
+  const [panStart, setPanStart] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     // Dynamic resize handling
@@ -220,6 +238,42 @@ function Tree({ data, width = 960, height = 600 }) {
     }
     setVersion(v => v + 1);
   }
+  
+  function handleMouseEnter(d, e) {
+    if (d.data.code) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      setTooltip({
+        data: d.data,
+        x: rect.right + 10,
+        y: rect.top
+      });
+    }
+  }
+  
+  function handleMouseLeave() {
+    setTooltip(null);
+  }
+  
+  function handleMouseDown(e) {
+    if (e.button === 0) { // Left mouse button
+      setIsPanning(true);
+      setPanStart({ x: e.clientX - panOffset.x, y: e.clientY - panOffset.y });
+      e.preventDefault();
+    }
+  }
+  
+  function handleMouseMove(e) {
+    if (isPanning) {
+      setPanOffset({
+        x: e.clientX - panStart.x,
+        y: e.clientY - panStart.y
+      });
+    }
+  }
+  
+  function handleMouseUp() {
+    setIsPanning(false);
+  }
 
   // Dynamic layout calculations
   const minX = d3.min(nodes, n => n.x);
@@ -235,12 +289,16 @@ function Tree({ data, width = 960, height = 600 }) {
   const zoomOut = () => setZoomLevel(z => Math.max(z - 0.25, 0.5));
 
   return html`
-    <div>
+    <div style=${{ position: 'relative' }}>
       <svg 
         viewBox="0 0 ${viewWidth} ${viewHeight}"
-        style=${{ width: '100%', height: '72vh', transition: 'all 0.3s ease' }}
+        style=${{ width: '100%', height: '72vh', transition: 'all 0.3s ease', cursor: isPanning ? 'grabbing' : 'grab' }}
+        onMouseDown=${handleMouseDown}
+        onMouseMove=${handleMouseMove}
+        onMouseUp=${handleMouseUp}
+        onMouseLeave=${handleMouseUp}
       >
-        <g transform="translate(${margin.left}, ${Math.abs(minX) + margin.top}) scale(${zoomLevel})">
+        <g transform="translate(${margin.left + panOffset.x}, ${Math.abs(minX) + margin.top + panOffset.y}) scale(${zoomLevel})">
           ${links.map((l, i) => {
             const source = [l.source.y, l.source.x];
             const target = [l.target.y, l.target.x];
@@ -255,8 +313,10 @@ function Tree({ data, width = 960, height = 600 }) {
                 key=${i}
                 class="node ${cls}" 
                 transform="translate(${n.y},${n.x})" 
-                onClick=${() => handleToggle(n)} 
-                style=${{ cursor: 'pointer', transition: 'all 0.3s ease' }}
+                onClick=${(e) => { if (!isPanning) handleToggle(n); }}
+                onMouseEnter=${(e) => handleMouseEnter(n, e)}
+                onMouseLeave=${handleMouseLeave}
+                style=${{ cursor: isPanning ? 'grabbing' : 'pointer', transition: 'all 0.3s ease' }}
               >
                 <circle r="8"></circle>
                 <text dx="12" dy="4">${n.data.name}</text>
@@ -277,6 +337,33 @@ function Tree({ data, width = 960, height = 600 }) {
           </g>
         </g>
       </svg>
+      
+      ${tooltip && html`
+        <div 
+          class="code-tooltip"
+          style=${{
+            position: 'fixed',
+            top: `${tooltip.y}px`,
+            left: `${tooltip.x}px`,
+            background: '#1a1a1a',
+            color: 'white',
+            padding: '8px 12px',
+            borderRadius: '6px',
+            fontSize: '0.85rem',
+            zIndex: 999,
+            pointerEvents: 'none',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+            maxWidth: '250px'
+          }}
+        >
+          <div style=${{ fontWeight: '600', marginBottom: '4px' }}>${tooltip.data.name}</div>
+          ${tooltip.data.code && html`
+            <div style=${{ fontFamily: 'monospace', fontSize: '0.8rem', color: '#a0d8f1' }}>
+              Code: ${tooltip.data.code}
+            </div>
+          `}
+        </div>
+      `}
     </div>
   `;
 }
@@ -290,6 +377,11 @@ function Tree({ data, width = 960, height = 600 }) {
 function App() {
   const [systemName, setSystemName] = useState(sampleData.name);
   const [systemUrl, setSystemUrl] = useState(sampleData.system);
+  const [treeData, setTreeData] = useState(() => {
+    const cloned = structuredClone(sampleData);
+    collapseAll(cloned);
+    return cloned;
+  });
 
   useEffect(() => {
     const qs = new URLSearchParams(window.location.search);
@@ -307,7 +399,7 @@ function App() {
   return html`
     <div style=${{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <header class="topbar">
-        <div style=${{ display: 'flex', flexDirection: 'column', gap: '4px', flex: '1' }}>
+        <div style=${{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
           <div style=${{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <div class="brand">🐙 Universal Octopus Viewer</div>
             <small class="muted">v0.3 — Clinical Terminology Tree Browser</small>
@@ -316,7 +408,7 @@ function App() {
             Code System: <strong>${systemName}</strong> (<code style=${{ fontSize: '0.85rem' }}>${systemUrl}</code>)
           </div>
         </div>
-        <nav class="tabs">
+        <nav class="tabs" style=${{ width: 'auto', borderBottom: 'none', marginTop: '0' }}>
           <a href="octopus.html?system=${encodeURIComponent(systemUrl)}" class="tab">Lookup</a>
           <a href="tree-preact.html?system=${encodeURIComponent(systemUrl)}" class="tab active">Tree View</a>
         </nav>
@@ -327,7 +419,7 @@ function App() {
           <button id="expandAll">Expand All</button>
           <button id="collapseAll">Collapse All</button>
         </div>
-        <${Tree} data=${structuredClone(sampleData)} />
+        <${Tree} data=${treeData} />
       </main>
 
       <footer style=${{ textAlign: 'center', padding: '1rem', marginTop: 'auto', borderTop: '1px solid rgba(255,255,255,0.1)' }}>

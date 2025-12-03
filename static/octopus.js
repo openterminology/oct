@@ -29,10 +29,20 @@ function OctopusApp() {
   const [fhirBase, setFhirBase] = useState('https://tx.ontoserver.csiro.au/fhir');
   const [conceptId, setConceptId] = useState('138875005');
   const [system, setSystem] = useState('http://snomed.info/sct');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchMode, setSearchMode] = useState('code'); // 'code' or 'term'
+  const [searchResults, setSearchResults] = useState(null);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState('');
   const [queryInfo, setQueryInfo] = useState('');
+
+  const codeSystems = [
+    { name: 'SNOMED CT', uri: 'http://snomed.info/sct', exampleCode: '138875005' },
+    { name: 'ICD-10', uri: 'http://hl7.org/fhir/sid/icd-10', exampleCode: 'I10' },
+    { name: 'LOINC', uri: 'http://loinc.org', exampleCode: '718-7' },
+    { name: 'RxNorm', uri: 'http://www.nlm.nih.gov/research/umls/rxnorm', exampleCode: '313782' }
+  ];
 
   useEffect(() => {
     // Read URL parameters
@@ -111,76 +121,189 @@ function OctopusApp() {
     setResult(res);
   }
 
-  function handleLookup() {
-    doLookup();
+  async function doTermSearch(term = searchTerm) {
+    if (!fhirBase || !term) {
+      setError('Please provide FHIR server and search term');
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+    setSearchResults(null);
+    setResult(null);
+
+    const base = fhirBase.replace(/\/+$/, '');
+    const params = new URLSearchParams({ 
+      url: system,
+      filter: term,
+      count: '20'
+    });
+
+    try {
+      const url = `${base}/ValueSet/$expand?${params}`;
+      console.log('Searching:', url);
+      const r = await fetch(url, { headers: { Accept: 'application/fhir+json,application/json' } });
+      
+      if (!r.ok) {
+        setError(`Search failed: ${r.status} ${r.statusText}`);
+        setLoading(false);
+        return;
+      }
+
+      const res = await r.json();
+      console.log('Search response:', res);
+      
+      if (res.expansion && res.expansion.contains) {
+        setSearchResults(res.expansion.contains);
+        setError('');
+      } else {
+        setSearchResults([]);
+        setError('No results found');
+      }
+    } catch (e) {
+      setError(`Search failed: ${e.message}`);
+      setSearchResults(null);
+    }
+
+    setLoading(false);
+  }
+
+  function handleSearch() {
+    console.log('handleSearch called, mode:', searchMode);
+    if (searchMode === 'code') {
+      doLookup();
+    } else {
+      doTermSearch();
+    }
   }
 
   function handleKeyDown(e) {
-    if (e.key === 'Enter') doLookup();
+    if (e.key === 'Enter') handleSearch();
+  }
+  
+  function handleSelectSearchResult(code) {
+    setConceptId(code);
+    setSearchMode('code');
+    setSearchResults(null);
+    setTimeout(() => doLookup(fhirBase, code, system), 100);
+  }
+  
+  function handleSystemChange(uri) {
+    setSystem(uri);
+    const selected = codeSystems.find(cs => cs.uri === uri);
+    if (selected) {
+      setConceptId(selected.exampleCode);
+    }
   }
 
   function renderDetails() {
     if (!result) return null;
 
-    const display = [];
     const params = result.parameter || [];
+    const details = [];
 
     if (Array.isArray(params) && params.length) {
       const fsn = params.find(p => p.name === 'display') || params.find(p => p.name === 'name');
       const designations = params.filter(p => p.name === 'designation');
       
       if (fsn && fsn.valueString) {
-        display.push(html`<div><strong>Display:</strong> ${fsn.valueString}</div>`);
+        details.push({ property: 'Display Name', value: fsn.valueString });
       }
       
       if (designations.length) {
-        const items = designations.map(d => {
+        designations.forEach((d, idx) => {
           try {
             const val = d.part ? d.part.find(p => p.name === 'value') : null;
-            return val && val.valueString ? val.valueString : JSON.stringify(d);
-          } catch(e) { return JSON.stringify(d); }
+            const use = d.part ? d.part.find(p => p.name === 'use') : null;
+            const lang = d.part ? d.part.find(p => p.name === 'language') : null;
+            
+            let label = `Designation ${idx + 1}`;
+            if (use?.valueCoding?.display) label = use.valueCoding.display;
+            
+            const valueText = val?.valueString || JSON.stringify(d);
+            const extra = lang?.valueCode ? ` (${lang.valueCode})` : '';
+            
+            details.push({ property: label, value: valueText + extra });
+          } catch(e) {
+            details.push({ property: `Designation ${idx + 1}`, value: JSON.stringify(d) });
+          }
         });
-        display.push(html`
-          <div>
-            <strong>Designations:</strong>
-            <ul>${items.map(i => html`<li>${i}</li>`)}</ul>
-          </div>
-        `);
       }
     }
 
     const properties = params.find(p => p.name === 'property');
     if (properties && Array.isArray(properties.part)) {
-      const rows = properties.part.map(pp => {
+      properties.part.forEach(pp => {
         const n = pp.part && pp.part.find(x => x.name === 'code')?.valueString;
         const v = pp.part && pp.part.find(x => x.name === 'value')?.valueString;
-        if (n) return html`<div><strong>${n}:</strong> ${v || ''}</div>`;
-        return null;
-      }).filter(Boolean);
-      
-      if (rows.length) {
-        display.push(html`<div><strong>Properties:</strong>${rows}</div>`);
-      }
+        if (n) {
+          details.push({ property: n, value: v || '-' });
+        }
+      });
     }
 
-    if (!display.length) {
-      display.push(html`<em>No structured display items found — see raw JSON.</em>`);
+    if (!details.length) {
+      return html`<p style=${{ textAlign: 'center', color: '#6b7280', padding: '2rem' }}>No structured details found — see raw JSON.</p>`;
     }
 
-    return display;
+    return html`
+      <table style=${{ 
+        width: '100%', 
+        borderCollapse: 'collapse', 
+        marginTop: '1rem',
+        background: 'white',
+        borderRadius: '8px',
+        overflow: 'hidden'
+      }}>
+        <thead>
+          <tr style=${{ background: '#f7f7f7', borderBottom: '2px solid #e6e6e6' }}>
+            <th style=${{ 
+              padding: '12px', 
+              textAlign: 'left', 
+              fontWeight: '600', 
+              color: '#0b1220',
+              width: '30%'
+            }}>Property</th>
+            <th style=${{ 
+              padding: '12px', 
+              textAlign: 'left', 
+              fontWeight: '600', 
+              color: '#0b1220' 
+            }}>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${details.map((d, i) => html`
+            <tr key=${i} style=${{ borderBottom: i < details.length - 1 ? '1px solid #f0f0f0' : 'none' }}>
+              <td style=${{ 
+                padding: '12px', 
+                fontWeight: '500', 
+                color: '#6b7280',
+                verticalAlign: 'top'
+              }}>${d.property}</td>
+              <td style=${{ 
+                padding: '12px', 
+                color: '#0b1220',
+                wordBreak: 'break-word'
+              }}>${d.value}</td>
+            </tr>
+          `)}
+        </tbody>
+      </table>
+    `;
   }
 
   return html`
     <div style=${{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <header class="topbar">
-        <div style=${{ display: 'flex', flexDirection: 'column', gap: '4px', flex: '1' }}>
+        <div style=${{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
           <div style=${{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <div class="brand">🐙 Universal Octopus Viewer</div>
+            <div class="brand">🐙Universal Octopus Viewer</div>
             <small class="muted">v0.3 — FHIR Terminology Browser</small>
           </div>
           <div class="muted" style=${{ fontSize: '0.95rem' }}>${queryInfo}</div>
         </div>
-        <nav class="tabs">
+        <nav class="tabs" style=${{ width: 'auto', borderBottom: 'none', marginTop: '0' }}>
           <a href="octopus.html?system=${encodeURIComponent(system)}" class="tab active">Lookup</a>
           <a href="tree-preact.html?system=${encodeURIComponent(system)}" class="tab">Tree View</a>
         </nav>
@@ -198,43 +321,143 @@ function OctopusApp() {
             />
           </div>
           <div class="form-row">
-            <label class="muted">Concept ID</label>
-            <input 
-              value=${conceptId} 
-              onInput=${e => setConceptId(e.target.value)}
-              onKeyDown=${handleKeyDown}
-            />
-            <button onClick=${handleLookup} disabled=${loading}>
-              ${loading ? 'Loading...' : 'Lookup'}
-            </button>
+            <label class="muted">Search Mode</label>
+            <div style=${{ display: 'flex', gap: '1rem', alignItems: 'center', flex: 1 }}>
+              <label style=${{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+                <input 
+                  type="radio" 
+                  checked=${searchMode === 'code'} 
+                  onChange=${() => setSearchMode('code')}
+                />
+                <span>By Code</span>
+              </label>
+              <label style=${{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+                <input 
+                  type="radio" 
+                  checked=${searchMode === 'term'} 
+                  onChange=${() => setSearchMode('term')}
+                />
+                <span>By Term</span>
+              </label>
+            </div>
+          </div>
+          ${searchMode === 'code' ? html`
+            <div class="form-row">
+              <label class="muted">Concept ID</label>
+              <input 
+                value=${conceptId} 
+                onInput=${e => setConceptId(e.target.value)}
+                onKeyDown=${handleKeyDown}
+              />
+              <button onClick=${() => doLookup()} disabled=${loading}>
+                ${loading ? 'Loading...' : 'Lookup'}
+              </button>
+            </div>
+          ` : html`
+            <div class="form-row">
+              <label class="muted">Search Term</label>
+              <input 
+                value=${searchTerm} 
+                onInput=${e => setSearchTerm(e.target.value)}
+                onKeyDown=${handleKeyDown}
+                placeholder="e.g., diabetes"
+              />
+              <button onClick=${handleSearch} disabled=${loading}>
+                ${loading ? 'Searching...' : 'Search'}
+              </button>
+            </div>
+          `}
+          <div class="form-row">
+            <label class="muted">Code System</label>
+            <select 
+              value=${system}
+              onChange=${e => handleSystemChange(e.target.value)}
+              style=${{ flex: 1, padding: '8px', borderRadius: '6px', border: '1px solid #e6e6e6', background: '#fff', color: '#0b1220' }}
+            >
+              ${codeSystems.map(cs => html`
+                <option value=${cs.uri}>${cs.name}</option>
+              `)}
+            </select>
           </div>
           <div class="form-row">
-            <label class="muted">System</label>
+            <label class="muted">System URI</label>
             <input 
               value=${system} 
               onInput=${e => setSystem(e.target.value)}
-              style=${{ flex: 1 }}
+              style=${{ flex: 1, fontSize: '0.85rem', fontFamily: 'monospace' }}
             />
           </div>
           <p class="muted">
             The viewer performs a FHIR ${'`$lookup`'} call. CORS and server availability depend on the chosen FHIR endpoint.
           </p>
 
+          ${searchResults && searchResults.length > 0 && html`
+            <div style=${{ marginTop: '1.5rem', padding: '1rem', background: '#f7f7f7', borderRadius: '6px', maxWidth: '800px', margin: '1.5rem auto 0 auto' }}>
+              <h4 style=${{ marginBottom: '0.75rem', color: '#0b1220' }}>Search Results (${searchResults.length})</h4>
+              <ul style=${{ listStyle: 'none', padding: 0, margin: 0 }}>
+                ${searchResults.map(r => html`
+                  <li 
+                    key=${r.code}
+                    onClick=${() => handleSelectSearchResult(r.code)}
+                    style=${{ 
+                      padding: '0.75rem', 
+                      marginBottom: '0.5rem', 
+                      background: '#fff', 
+                      borderRadius: '4px',
+                      cursor: 'pointer',
+                      border: '1px solid #e6e6e6',
+                      transition: 'all 0.2s'
+                    }}
+                    onMouseEnter=${e => {
+                      e.currentTarget.style.background = '#f0f7ff';
+                      e.currentTarget.style.borderColor = '#3b82f6';
+                    }}
+                    onMouseLeave=${e => {
+                      e.currentTarget.style.background = '#fff';
+                      e.currentTarget.style.borderColor = '#e6e6e6';
+                    }}
+                  >
+                    <div style=${{ fontWeight: '600', color: '#0b1220', marginBottom: '0.25rem' }}>
+                      ${r.display}
+                    </div>
+                    <div style=${{ fontSize: '0.875rem', color: '#6b7280', fontFamily: 'monospace' }}>
+                      Code: ${r.code}
+                    </div>
+                  </li>
+                `)}
+              </ul>
+            </div>
+          `}
+
           ${error && html`<div class="error-box">${error}</div>`}
 
           ${result && html`
-            <div>
-              <h3>Result</h3>
-              <div><strong>Lookup succeeded</strong> — showing ${Object.keys(result).length} top-level keys</div>
-              <div class="result-grid">
-                <div class="panel">
-                  <h4>Raw JSON</h4>
-                  <pre class="json">${JSON.stringify(result, null, 2)}</pre>
+            <div style=${{ marginTop: '2rem' }}>
+              <h3 style=${{ textAlign: 'center', marginBottom: '1.5rem' }}>Lookup Results</h3>
+              
+              <div style=${{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                <div class="panel" style=${{ margin: '0 auto', width: '100%', maxWidth: '800px' }}>
+                  <h4 style=${{ textAlign: 'center', marginBottom: '1rem' }}>Concept Details</h4>
+                  ${renderDetails()}
                 </div>
-                <div class="panel">
-                  <h4>Details</h4>
-                  <div>${renderDetails()}</div>
-                </div>
+                
+                <details style=${{ margin: '0 auto', width: '100%', maxWidth: '800px' }}>
+                  <summary style=${{ 
+                    cursor: 'pointer', 
+                    padding: '12px', 
+                    background: '#f7f7f7', 
+                    borderRadius: '6px',
+                    fontWeight: '600',
+                    textAlign: 'center'
+                  }}>View Raw JSON Response</summary>
+                  <div class="panel" style=${{ marginTop: '1rem' }}>
+                    <pre class="json" style=${{ 
+                      maxHeight: '400px', 
+                      overflow: 'auto',
+                      fontSize: '0.85rem'
+                    }}>${JSON.stringify(result, null, 2)}</pre>
+                  </div>
+                </details>
               </div>
             </div>
           `}
