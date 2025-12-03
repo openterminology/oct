@@ -219,7 +219,10 @@ function Tree({ data, width = 960, height = 600 }) {
       if (eBtn) eBtn.onclick = null;
       if (cBtn) cBtn.onclick = null;
     };
+<<<<<<< HEAD
   }, [treeData]);
+=======
+>>>>>>> 75bccef (Rebrand to OctoViewer across all UI files)
 
   // compute layout with dynamic spacing
   const root = d3.hierarchy(treeData);
@@ -405,7 +408,7 @@ function App() {
       <header class="topbar">
         <div style=${{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
           <div style=${{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <div class="brand">🐙 Universal Octopus Viewer</div>
+            <div class="brand">🐙 Universal OctoViewer</div>
             <small class="muted">v0.3 — Clinical Terminology Tree Browser</small>
           </div>
           <div class="muted" style=${{ fontSize: '0.95rem' }}>
@@ -428,7 +431,7 @@ function App() {
 
       <footer style=${{ textAlign: 'center', padding: '1rem', marginTop: 'auto', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
         <small class="muted">
-          🐙 Universal Octopus Viewer — Clinical Terminology Tree Browser — Licensed under Apache 2.0 & CC-BY 4.0 by OCT
+          🐙 Universal OctoViewer — Clinical Terminology Tree Browser — Licensed under Apache 2.0 & CC-BY 4.0 by OCT
           <br />
           <a href="https://openhealthhub.org/c/oct/58" target="_blank" rel="noopener" style=${{ color: '#6b9bd1', textDecoration: 'none' }}>Contact Us</a>
         </small>
