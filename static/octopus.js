@@ -298,7 +298,7 @@ function OctopusApp() {
       <header class="topbar">
         <div style=${{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
           <div style=${{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <div class="brand">🐙Universal Octopus Viewer</div>
+            <div class="brand">🐙Universal OctoViewer</div>
             <small class="muted">v0.3 — FHIR Terminology Browser</small>
           </div>
           <div class="muted" style=${{ fontSize: '0.95rem' }}>${queryInfo}</div>
@@ -466,7 +466,7 @@ function OctopusApp() {
 
       <footer style=${{ textAlign: 'center', padding: '1rem', marginTop: 'auto', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
         <small class="muted">
-          🐙 Universal Octopus Viewer— Open Clinical Terminology Browser — Licensed under Apache 2.0 & CC-BY 4.0 by OCT
+          🐙 Universal OctoViewer— Open Clinical Terminology Browser — Licensed under Apache 2.0 & CC-BY 4.0 by OCT
           <br />
           <a href="https://openhealthhub.org/c/oct/58" target="_blank" rel="noopener" style=${{ color: '#6b9bd1', textDecoration: 'none' }}>Contact Us</a>
         </small>
