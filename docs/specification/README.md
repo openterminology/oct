@@ -10,7 +10,7 @@ The documents are intended as living guidance for contributors and reviewers. Th
 
 ## Coding Style and Development Standards
 
-- **Language & Tooling**: Python 3.10+ for CLI work, using [`click`](https://click.palletsprojects.com/) for command definitions and option parsing.
+- **Language & Tooling**: Python 3.13+ for CLI work, using [`click`](https://click.palletsprojects.com/) for command definitions and option parsing.
 - **Imports**: Group standard library, third-party, and local imports separately; avoid wildcard imports; never wrap imports in `try/except`.
 - **Typing**: Prefer explicit type hints for function arguments and return values. Use `Path` for filesystem paths.
 - **Error Handling**: Fail fast with clear, user-focused error messages; avoid silent failures. Capture predictable exceptions and surface actionable guidance.
@@ -22,7 +22,7 @@ The documents are intended as living guidance for contributors and reviewers. Th
 
 ## File Layout
 
-- `spec/README.md` — This document and style expectations.
-- `spec/commands/<command>.md` — One file per CLI command.
+- `docs/specifications/README.md` — This document and style expectations.
+- `docs/specifications/commands/<command>.md` — One file per CLI command.
 
-When adding new commands, create a matching spec file in `spec/commands/` and link it from relevant documentation.
+When adding new commands, create a matching spec file in `docs/specifications/commands/` and link it from relevant documentation.

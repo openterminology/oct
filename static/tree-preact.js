@@ -219,10 +219,7 @@ function Tree({ data, width = 960, height = 600 }) {
       if (eBtn) eBtn.onclick = null;
       if (cBtn) cBtn.onclick = null;
     };
-<<<<<<< HEAD
   }, [treeData]);
-=======
->>>>>>> 75bccef (Rebrand to OctoViewer across all UI files)
 
   // compute layout with dynamic spacing
   const root = d3.hierarchy(treeData);
