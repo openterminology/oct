@@ -39,6 +39,24 @@ However, I believe that an open and free terminology can fill a gap in the curre
 2. **Adopt**: Existing open works which have a compatible license may be incorporated into `oct`.
 
 
+## Quick Start - Running Locally
+
+The Octopus terminology browser UI can be run locally using Docker:
+
+```bash
+# Start the Caddy webserver
+docker compose up -d caddy
+
+# Access the UI at:
+# http://localhost/octopus.html - FHIR terminology browser
+# http://localhost/tree-preact.html - Tree visualization
+
+# Stop the server
+docker compose down
+```
+
+The server will serve static files from the `./static` directory with gzip/zstd compression and cache headers.
+
 ## Getting Involved
 
 To discuss anything about `oct` please use the [`oct` Category of openhealthhub.org](https://openhealthhub.org/c/oct/58) - this is a good starting point for discussions, questions, and suggestions as well as learning about the project and connecting with existing contributors.
