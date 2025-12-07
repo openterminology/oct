@@ -23,8 +23,14 @@ Navigate to: http://localhost/octopus.html
 
 ## Tree Visualization
 
+
+https://github.com/user-attachments/assets/da6a5a18-a192-4d71-8597-504e2833cc3a
+
+
 Visit: http://localhost/tree-preact.html
 
 - Expand/collapse nodes
 - Interactive D3-based tree view
+
+
 
