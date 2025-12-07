@@ -1,6 +1,6 @@
-# Octopus UI Demo
+# Octo UI Demo
 
-![Octopus UI Demo](static/2025-12-07.gif)
+![Octo UI Demo](static/2025-12-07.gif)
 
 ## Starting the Server
 
