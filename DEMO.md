@@ -1,6 +1,6 @@
 # Octopus UI Demo
 
-![Octopus UI Demo](2025-12-07.gif)
+![Octopus UI Demo](static/2025-12-07.gif)
 
 ## Starting the Server
 
@@ -24,10 +24,6 @@ Navigate to: http://localhost/octopus.html
    - Raw JSON response
 
 ## Tree Visualization
-
-
-https://github.com/user-attachments/assets/da6a5a18-a192-4d71-8597-504e2833cc3a
-
 
 Visit: http://localhost/tree-preact.html
 
