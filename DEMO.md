@@ -1,5 +1,7 @@
 # Octopus UI Demo
 
+![Octopus UI Demo](2025-12-07.gif)
+
 ## Starting the Server
 
 ```bash
