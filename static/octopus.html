@@ -8,6 +8,9 @@
   <link rel="stylesheet" href="styles.css">
   <style>
     .form-row{display:flex;gap:.5rem;align-items:center;margin-bottom:.5rem}
+    .form-row input{transition:all 0.2s ease;border:1px solid #e6e6e6;padding:8px;border-radius:6px}
+    .form-row input:hover{background:#f0f7ff;border-color:#3b82f6}
+    .form-row input:focus{background:#f0f7ff;border-color:#3b82f6;outline:none}
     .muted{color:#9aa4b2;font-size:.9rem}
     pre.json{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);padding:1rem;overflow:auto;border-radius:6px;max-height:500px}
     .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
@@ -22,6 +25,6 @@
 </head>
 <body>
   <div id="app"></div>
-  <script type="module" src="octopus.js?v=1733655000"></script>
+  <script type="module" src="octopus.js?v=1733655200"></script>
 </body>
 </html>

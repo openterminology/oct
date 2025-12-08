@@ -249,42 +249,52 @@ function OctopusApp() {
     return html`
       <table style=${{ 
         width: '100%', 
-        borderCollapse: 'collapse', 
-        marginTop: '1rem',
+        borderCollapse: 'collapse',
+        fontSize: '0.9rem',
         background: 'white',
-        borderRadius: '8px',
-        overflow: 'hidden'
+        border: '1px solid #e5e7eb'
       }}>
         <thead>
-          <tr style=${{ background: '#f7f7f7', borderBottom: '2px solid #e6e6e6' }}>
+          <tr style=${{ background: '#f9fafb', borderBottom: '1px solid #e5e7eb' }}>
             <th style=${{ 
-              padding: '12px', 
+              padding: '8px 12px', 
               textAlign: 'left', 
               fontWeight: '600', 
-              color: '#0b1220',
-              width: '30%'
+              color: '#374151',
+              fontSize: '0.85rem',
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
+              width: '28%'
             }}>Property</th>
             <th style=${{ 
-              padding: '12px', 
+              padding: '8px 12px', 
               textAlign: 'left', 
               fontWeight: '600', 
-              color: '#0b1220' 
+              color: '#374151',
+              fontSize: '0.85rem',
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em'
             }}>Value</th>
           </tr>
         </thead>
         <tbody>
           ${details.map((d, i) => html`
-            <tr key=${i} style=${{ borderBottom: i < details.length - 1 ? '1px solid #f0f0f0' : 'none' }}>
+            <tr key=${i} style=${{ 
+              borderBottom: i < details.length - 1 ? '1px solid #f3f4f6' : 'none',
+              background: i % 2 === 0 ? 'white' : '#fafafa'
+            }}>
               <td style=${{ 
-                padding: '12px', 
+                padding: '10px 12px', 
                 fontWeight: '500', 
                 color: '#6b7280',
-                verticalAlign: 'top'
+                verticalAlign: 'top',
+                fontSize: '0.875rem'
               }}>${d.property}</td>
               <td style=${{ 
-                padding: '12px', 
-                color: '#0b1220',
-                wordBreak: 'break-word'
+                padding: '10px 12px', 
+                color: '#111827',
+                wordBreak: 'break-word',
+                fontSize: '0.875rem'
               }}>${d.value}</td>
             </tr>
           `)}
