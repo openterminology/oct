@@ -153,18 +153,6 @@ For reasons of copyright liability, absolutely no AI or Large Language Model-gen
 
 Within `oct` it **is** permissible to use AI/LLMs in a responsible and human-supervised way to assist with generating library code, creation of tools, building graphs, documentation and similar tasks, provided that there is no risk of copyright or license infringement.
 
-## References
-
-A list of resources and references that have informed the development of `oct`:
-
-1. _Desiderata for Controlled Medical Vocabularies in the Twenty-First Century_. JamesJ Cimino, Methods Inf Med. 1998 Nov;37(4-5):394–403. https://pmc.ncbi.nlm.nih.gov/articles/PMC3415631/
-
-2. _Clinical terminology: why is it so hard?_ A L Rector, Methods Inf Med 1999 Dec;38(4-5):239-52. https://pubmed.ncbi.nlm.nih.gov/10805008/
-
-3. Discussions on the Open Health Hub forum: https://openhealthhub.org/c/oct
-
-4. Discussions on the openEHR forum: https://discourse.openehr.org/t/oct-a-new-open-clinical-terminology
-
 ## Contact
 
 For questions, discussions, or to get involved, please visit the [Open Health Hub `oct` Category](https://openhealthhub.org/c/oct/58) or contact the maintainers (info@openterminology.org).
