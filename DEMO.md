@@ -2,6 +2,8 @@
 
 ![Octo UI Demo](static/2025-12-07.gif)
 
+> **⚠️ Important Notice:** The data displayed in this UI is for demonstration purposes only and has not been clinically validated. This is a mock dataset and should not be used for clinical decision-making or medical diagnosis.
+
 ## Starting the Server
 
 ```bash
