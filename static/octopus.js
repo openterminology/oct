@@ -309,7 +309,75 @@ function OctopusApp() {
         </nav>
       </header>
 
-      <main style=${{ padding: '1rem', maxWidth: '1000px', margin: '0 auto', flex: '1' }}>
+      <div class="layout-container">
+        <aside class="left-pane">
+          <h3 style=${{ marginTop: 0, fontSize: '1rem', marginBottom: '1rem' }}>Quick Links</h3>
+          <div style=${{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <button 
+              onClick=${() => {
+                setSystem('http://snomed.info/sct');
+                setConceptId('138875005');
+                setSearchMode('code');
+              }}
+              style=${{ 
+                padding: '0.5rem', 
+                background: 'rgba(49, 130, 189, 0.1)', 
+                border: '1px solid rgba(49, 130, 189, 0.3)',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '0.85rem',
+                textAlign: 'left'
+              }}
+            >
+              SNOMED CT Example
+            </button>
+            <button 
+              onClick=${() => {
+                setSystem('http://hl7.org/fhir/sid/icd-10');
+                setConceptId('I10');
+                setSearchMode('code');
+              }}
+              style=${{ 
+                padding: '0.5rem', 
+                background: 'rgba(49, 130, 189, 0.1)', 
+                border: '1px solid rgba(49, 130, 189, 0.3)',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '0.85rem',
+                textAlign: 'left'
+              }}
+            >
+              ICD-10 Example
+            </button>
+            <button 
+              onClick=${() => {
+                setSystem('http://loinc.org');
+                setConceptId('718-7');
+                setSearchMode('code');
+              }}
+              style=${{ 
+                padding: '0.5rem', 
+                background: 'rgba(49, 130, 189, 0.1)', 
+                border: '1px solid rgba(49, 130, 189, 0.3)',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '0.85rem',
+                textAlign: 'left'
+              }}
+            >
+              LOINC Example
+            </button>
+          </div>
+          
+          <hr style=${{ margin: '1.5rem 0', border: 'none', borderTop: '1px solid rgba(255,255,255,0.1)' }} />
+          
+          <h3 style=${{ fontSize: '1rem', marginBottom: '0.75rem' }}>Recent Searches</h3>
+          <div class="muted" style=${{ fontSize: '0.8rem' }}>
+            <p>No recent searches</p>
+          </div>
+        </aside>
+
+        <main class="main-content" style=${{ padding: '1rem', maxWidth: '1000px', margin: '0 auto', flex: '1' }}>
         <section>
           <h2>Lookup a concept</h2>
           <div class="form-row">
@@ -463,6 +531,7 @@ function OctopusApp() {
           `}
         </section>
       </main>
+      </div>
 
       <footer style=${{ textAlign: 'center', padding: '1rem', marginTop: 'auto', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
         <small class="muted">

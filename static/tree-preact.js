@@ -363,7 +363,7 @@ function Tree({ data, width = 960, height = 600 }) {
           <div style=${{ fontWeight: '600', marginBottom: '4px' }}>${tooltip.data.name}</div>
           ${tooltip.data.code && html`
             <div style=${{ fontFamily: 'monospace', fontSize: '0.8rem', color: '#a0d8f1' }}>
-              Code: ${tooltip.data.code}
+              Code: ${tooltip.data.code}git
             </div>
           `}
         </div>
