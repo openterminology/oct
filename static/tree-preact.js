@@ -7,6 +7,7 @@ const html = htm.bind(h);
 
 const sampleData = {
   name: 'SNOMED CT',
+  code: '138875005',
   system: 'http://snomed.info/sct',
   children: [
     {

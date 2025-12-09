@@ -36,10 +36,19 @@ function OctopusApp() {
   const [result, setResult] = useState(null);
   const [error, setError] = useState('');
   const [queryInfo, setQueryInfo] = useState('');
+  const [recentSearches, setRecentSearches] = useState(() => {
+    try {
+      const saved = localStorage.getItem('recentSearches');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
 
   const codeSystems = [
     { name: 'SNOMED CT (International)', uri: 'http://snomed.info/sct', exampleCode: '138875005' },
     { name: 'SNOMED CT [🇬🇧 UK Edition]', uri: 'http://snomed.info/sct/83821000000107', exampleCode: '138875005' },
+    { name: 'NHS dm+d [🇬🇧 UK]', uri: 'https://dmd.nhs.uk', exampleCode: '329498007' },
     { name: 'ICD-10', uri: 'http://hl7.org/fhir/sid/icd-10', exampleCode: 'I10' },
     { name: 'LOINC', uri: 'http://loinc.org', exampleCode: '718-7' },
     { name: 'RxNorm', uri: 'http://www.nlm.nih.gov/research/umls/rxnorm', exampleCode: '313782' }
@@ -120,6 +129,28 @@ function OctopusApp() {
     }
 
     setResult(res);
+    
+    // Save to recent searches
+    addRecentSearch(code, sys);
+  }
+  
+  function addRecentSearch(code, systemUri) {
+    const systemName = codeSystems.find(cs => cs.uri === systemUri)?.name || systemUri;
+    const newSearch = {
+      code,
+      system: systemUri,
+      systemName,
+      timestamp: Date.now()
+    };
+    
+    setRecentSearches(prev => {
+      const filtered = prev.filter(s => !(s.code === code && s.system === systemUri));
+      const updated = [newSearch, ...filtered].slice(0, 10); // Keep last 10
+      try {
+        localStorage.setItem('recentSearches', JSON.stringify(updated));
+      } catch {}
+      return updated;
+    });
   }
 
   async function doTermSearch(term = searchTerm) {
@@ -134,8 +165,11 @@ function OctopusApp() {
     setResult(null);
 
     const base = fhirBase.replace(/\/+$/, '');
+    
+    // Create implicit ValueSet URL by appending ?fhir_vs to the code system URL
+    const valueSetUrl = `${system}?fhir_vs`;
     const params = new URLSearchParams({ 
-      url: system,
+      url: valueSetUrl,
       filter: term,
       count: '20'
     });
@@ -401,8 +435,43 @@ function OctopusApp() {
           <hr style=${{ margin: '1.5rem 0', border: 'none', borderTop: '1px solid rgba(255,255,255,0.1)' }} />
           
           <h3 style=${{ fontSize: '1rem', marginBottom: '0.75rem' }}>Recent Searches</h3>
-          <div class="muted" style=${{ fontSize: '0.8rem' }}>
-            <p>No recent searches</p>
+          <div style=${{ fontSize: '0.8rem', maxHeight: '300px', overflowY: 'auto' }}>
+            ${recentSearches.length === 0 ? html`
+              <p class="muted">No recent searches</p>
+            ` : html`
+              <div style=${{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                ${recentSearches.map(search => html`
+                  <button
+                    key="${search.code}-${search.system}"
+                    onClick=${() => {
+                      setSystem(search.system);
+                      setConceptId(search.code);
+                      setSearchMode('code');
+                      setTimeout(() => doLookup(fhirBase, search.code, search.system), 100);
+                    }}
+                    style=${{ 
+                      padding: '0.5rem', 
+                      background: 'rgba(100, 100, 100, 0.05)', 
+                      border: '1px solid rgba(100, 100, 100, 0.2)',
+                      borderRadius: '4px',
+                      cursor: 'pointer',
+                      fontSize: '0.8rem',
+                      textAlign: 'left',
+                      transition: 'all 0.2s'
+                    }}
+                    onMouseEnter=${e => {
+                      e.currentTarget.style.background = 'rgba(100, 100, 100, 0.1)';
+                    }}
+                    onMouseLeave=${e => {
+                      e.currentTarget.style.background = 'rgba(100, 100, 100, 0.05)';
+                    }}
+                  >
+                    <div style=${{ fontWeight: '500', color: '#333', marginBottom: '2px' }}>${search.code}</div>
+                    <div style=${{ color: '#6b7280', fontSize: '0.75rem' }}>${search.systemName}</div>
+                  </button>
+                `)}
+              </div>
+            `}
           </div>
         </aside>
 
