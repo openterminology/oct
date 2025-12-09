@@ -15,12 +15,13 @@
     .toolbar button:hover { background: #2563a8; }
     svg { width: 100%; height: 72vh; border: 1px solid #ddd; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: transform 0.3s ease; transform-origin: center; }
     svg.zoomed { transform: scale(1.5); height: 100vh; }
-    .node circle { fill: #fff; stroke: #3182bd; stroke-width: 2px; }
+    .node rect { fill: #fff; stroke: #3182bd; stroke-width: 2px; transition: fill 0.2s ease; }
+    .node--internal rect { fill: #3182bd; }
+    .node--collapsed rect { fill: #d3d3d3; }
     .node text { font: 13px system-ui, sans-serif; fill: #333; }
     .link { fill: none; stroke: #9ecae1; stroke-width: 2px; }
-    .node--internal circle { fill: #3182bd; }
-    .node--collapsed circle { fill: #ffd54f; stroke: #f9a825; }
-    .node:hover circle { stroke-width: 3px; }
+    .node:hover rect { stroke-width: 3px; }
+    .node--collapsed:hover rect { fill: #e0e0e0; }
     .enlarge-btn { position: fixed; bottom: 20px; right: 20px; padding: 0.75rem 1.25rem; background: #3182bd; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 1000; }
     .enlarge-btn:hover { background: #2563a8; transform: scale(1.05); }
     .enlarge-btn:active { transform: scale(0.95); }
@@ -31,6 +32,6 @@
 </head>
 <body>
   <div id="app"></div>
-  <script type="module" src="tree-preact.js?v=5"></script>
+  <script type="module" src="tree-preact.js?v=9"></script>
 </body>
 </html>

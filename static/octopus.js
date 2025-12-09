@@ -38,7 +38,8 @@ function OctopusApp() {
   const [queryInfo, setQueryInfo] = useState('');
 
   const codeSystems = [
-    { name: 'SNOMED CT', uri: 'http://snomed.info/sct', exampleCode: '138875005' },
+    { name: 'SNOMED CT (International)', uri: 'http://snomed.info/sct', exampleCode: '138875005' },
+    { name: 'SNOMED CT [🇬🇧 UK Edition]', uri: 'http://snomed.info/sct/83821000000107', exampleCode: '138875005' },
     { name: 'ICD-10', uri: 'http://hl7.org/fhir/sid/icd-10', exampleCode: 'I10' },
     { name: 'LOINC', uri: 'http://loinc.org', exampleCode: '718-7' },
     { name: 'RxNorm', uri: 'http://www.nlm.nih.gov/research/umls/rxnorm', exampleCode: '313782' }
@@ -340,6 +341,24 @@ function OctopusApp() {
               }}
             >
               SNOMED CT Example
+            </button>
+            <button 
+              onClick=${() => {
+                setSystem('http://snomed.info/sct/83821000000107');
+                setConceptId('138875005');
+                setSearchMode('code');
+              }}
+              style=${{ 
+                padding: '0.5rem', 
+                background: 'rgba(49, 130, 189, 0.1)', 
+                border: '1px solid rgba(49, 130, 189, 0.3)',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '0.85rem',
+                textAlign: 'left'
+              }}
+            >
+              SNOMED CT [🇬🇧 UK]
             </button>
             <button 
               onClick=${() => {

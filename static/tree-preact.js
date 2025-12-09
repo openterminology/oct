@@ -312,6 +312,10 @@ function Tree({ data, width = 960, height = 600 }) {
 
           ${nodes.map((n, i) => {
             const cls = n.children || n.data.children ? 'node--internal' : (n.data._children ? 'node--collapsed' : '');
+            const hasCode = n.data.code;
+            const codeText = hasCode ? n.data.code : '';
+            const rectWidth = hasCode ? Math.max(60, codeText.length * 8) : 24;
+            const rectHeight = hasCode ? 24 : 16;
             return html`
               <g 
                 key=${i}
@@ -322,8 +326,27 @@ function Tree({ data, width = 960, height = 600 }) {
                 onMouseLeave=${handleMouseLeave}
                 style=${{ cursor: isPanning ? 'grabbing' : 'pointer', transition: 'all 0.3s ease' }}
               >
-                <circle r="8"></circle>
-                <text dx="12" dy="4">${n.data.name}</text>
+                <rect 
+                  x="${-rectWidth / 2}" 
+                  y="${-rectHeight / 2}" 
+                  width="${rectWidth}" 
+                  height="${rectHeight}" 
+                  rx="6" 
+                  ry="6"
+                ></rect>
+                ${hasCode && html`
+                  <text 
+                    dy="4" 
+                    text-anchor="middle" 
+                    fill="white" 
+                    font-size="9" 
+                    font-weight="bold"
+                    style=${{ pointerEvents: 'none' }}
+                  >
+                    ${codeText}
+                  </text>
+                `}
+                <text dx="0" dy="${hasCode ? 24 : 4}" text-anchor="middle">${n.data.name}</text>
               </g>
             `;
           })}
