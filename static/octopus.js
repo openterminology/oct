@@ -1,6 +1,7 @@
 import { h, render } from 'https://esm.sh/preact@10.24.3';
 import { useState, useEffect } from 'https://esm.sh/preact@10.24.3/hooks';
 import htm from 'https://esm.sh/htm@3.1.1';
+import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
 
 const html = htm.bind(h);
 
@@ -36,6 +37,8 @@ function OctopusApp() {
   const [result, setResult] = useState(null);
   const [error, setError] = useState('');
   const [queryInfo, setQueryInfo] = useState('');
+  const [relationshipView, setRelationshipView] = useState('stated'); // 'stated' or 'inferred'
+  const [activeTab, setActiveTab] = useState('details'); // 'details' or 'hierarchy'
   const [recentSearches, setRecentSearches] = useState(() => {
     try {
       const saved = localStorage.getItem('recentSearches');
@@ -50,8 +53,14 @@ function OctopusApp() {
     { name: 'SNOMED CT [🇬🇧 UK Edition]', uri: 'http://snomed.info/sct/83821000000107', exampleCode: '138875005' },
     { name: 'NHS dm+d [🇬🇧 UK]', uri: 'https://dmd.nhs.uk', exampleCode: '329498007' },
     { name: 'ICD-10', uri: 'http://hl7.org/fhir/sid/icd-10', exampleCode: 'I10' },
+    { name: 'ICD-10-CM [🇺🇸 USA]', uri: 'http://hl7.org/fhir/sid/icd-10-cm', exampleCode: 'I10' },
+    { name: 'ICD-9-CM', uri: 'http://hl7.org/fhir/sid/icd-9-cm', exampleCode: '401.9' },
+    { name: 'CPT', uri: 'http://www.ama-assn.org/go/cpt', exampleCode: '99213' },
     { name: 'LOINC', uri: 'http://loinc.org', exampleCode: '718-7' },
-    { name: 'RxNorm', uri: 'http://www.nlm.nih.gov/research/umls/rxnorm', exampleCode: '313782' }
+    { name: 'RxNorm', uri: 'http://www.nlm.nih.gov/research/umls/rxnorm', exampleCode: '313782' },
+    { name: 'CVX (Vaccines)', uri: 'http://hl7.org/fhir/sid/cvx', exampleCode: '207' },
+    { name: 'NDC', uri: 'http://hl7.org/fhir/sid/ndc', exampleCode: '0378-1805-10' },
+    { name: 'UCUM', uri: 'http://unitsofmeasure.org', exampleCode: 'mg' }
   ];
 
   useEffect(() => {
@@ -266,16 +275,49 @@ function OctopusApp() {
       }
     }
 
-    const properties = params.find(p => p.name === 'property');
-    if (properties && Array.isArray(properties.part)) {
-      properties.part.forEach(pp => {
-        const n = pp.part && pp.part.find(x => x.name === 'code')?.valueString;
-        const v = pp.part && pp.part.find(x => x.name === 'value')?.valueString;
-        if (n) {
-          details.push({ property: n, value: v || '-' });
+    // Separate properties into stated and inferred relationships
+    const statedRels = [];
+    const inferredRels = [];
+    const otherProps = [];
+
+    params.filter(p => p.name === 'property').forEach(prop => {
+      if (!prop.part) return;
+      
+      const code = prop.part.find(x => x.name === 'code')?.valueCode || prop.part.find(x => x.name === 'code')?.valueString;
+      const value = prop.part.find(x => x.name === 'value')?.valueString || 
+                    prop.part.find(x => x.name === 'value')?.valueCoding?.display ||
+                    prop.part.find(x => x.name === 'value')?.valueCoding?.code;
+      const subProp = prop.part.find(x => x.name === 'subproperty');
+      
+      if (code === 'parent') {
+        // Check if it's inferred (computed) relationship
+        const isInferred = subProp?.part?.some(sp => 
+          sp.name === 'code' && (sp.valueCode === 'inferred' || sp.valueString === 'inferred')
+        );
+        
+        if (isInferred) {
+          inferredRels.push({ property: 'Parent (Inferred)', value: value || '-', code });
+        } else {
+          statedRels.push({ property: 'Parent (Stated)', value: value || '-', code });
         }
-      });
+      } else {
+        otherProps.push({ property: code, value: value || '-' });
+      }
+    });
+
+    // Add relationships based on current view
+    if (relationshipView === 'stated') {
+      statedRels.forEach(rel => details.push(rel));
+    } else {
+      inferredRels.forEach(rel => details.push(rel));
+      // If no inferred, show stated as fallback
+      if (inferredRels.length === 0) {
+        statedRels.forEach(rel => details.push(rel));
+      }
     }
+    
+    // Add other properties
+    otherProps.forEach(prop => details.push(prop));
 
     if (!details.length) {
       return html`<p style=${{ textAlign: 'center', color: '#6b7280', padding: '2rem' }}>No structured details found — see raw JSON.</p>`;
@@ -599,32 +641,122 @@ function OctopusApp() {
 
           ${result && html`
             <div style=${{ marginTop: '2rem' }}>
-              <h3 style=${{ textAlign: 'center', marginBottom: '1.5rem' }}>Lookup Results</h3>
+              <h3 style=${{ textAlign: 'center', marginBottom: '1rem' }}>Lookup Results</h3>
               
-              <div style=${{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                <div class="panel" style=${{ margin: '0 auto', width: '100%', maxWidth: '800px' }}>
-                  <h4 style=${{ textAlign: 'center', marginBottom: '1rem' }}>Concept Details</h4>
-                  ${renderDetails()}
-                </div>
-                
-                <details style=${{ margin: '0 auto', width: '100%', maxWidth: '800px' }}>
-                  <summary style=${{ 
-                    cursor: 'pointer', 
-                    padding: '12px', 
-                    background: '#f7f7f7', 
-                    borderRadius: '6px',
+              <!-- Tabs for Details and Hierarchy -->
+              <div style=${{ display: 'flex', justifyContent: 'center', gap: '0.25rem', marginBottom: '1.5rem', borderBottom: '2px solid #e5e7eb' }}>
+                <button 
+                  onClick=${() => setActiveTab('details')}
+                  style=${{
+                    padding: '0.75rem 2rem',
+                    background: 'transparent',
+                    color: activeTab === 'details' ? '#3b82f6' : '#6b7280',
+                    border: 'none',
+                    borderBottom: activeTab === 'details' ? '3px solid #3b82f6' : '3px solid transparent',
+                    cursor: 'pointer',
                     fontWeight: '600',
-                    textAlign: 'center'
-                  }}>View Raw JSON Response</summary>
-                  <div class="panel" style=${{ marginTop: '1rem' }}>
-                    <pre class="json" style=${{ 
-                      maxHeight: '400px', 
-                      overflow: 'auto',
-                      fontSize: '0.85rem'
-                    }}>${JSON.stringify(result, null, 2)}</pre>
-                  </div>
-                </details>
+                    fontSize: '0.95rem',
+                    transition: 'all 0.2s',
+                    marginBottom: '-2px'
+                  }}
+                >
+                  Details
+                </button>
+                ${(system.includes('snomed.info/sct')) && html`
+                  <button 
+                    onClick=${() => setActiveTab('hierarchy')}
+                    style=${{
+                      padding: '0.75rem 2rem',
+                      background: 'transparent',
+                      color: activeTab === 'hierarchy' ? '#3b82f6' : '#6b7280',
+                      border: 'none',
+                      borderBottom: activeTab === 'hierarchy' ? '3px solid #3b82f6' : '3px solid transparent',
+                      cursor: 'pointer',
+                      fontWeight: '600',
+                      fontSize: '0.95rem',
+                      transition: 'all 0.2s',
+                      marginBottom: '-2px'
+                    }}
+                  >
+                    Hierarchy
+                  </button>
+                `}
               </div>
+              
+              ${activeTab === 'details' && html`
+                ${(system.includes('snomed.info/sct')) && html`
+                  <div style=${{ display: 'flex', justifyContent: 'center', gap: '0.5rem', marginBottom: '1.5rem' }}>
+                    <button 
+                      onClick=${() => setRelationshipView('stated')}
+                      style=${{
+                        padding: '0.5rem 1.5rem',
+                        background: relationshipView === 'stated' ? '#3b82f6' : '#f3f4f6',
+                        color: relationshipView === 'stated' ? 'white' : '#6b7280',
+                        border: 'none',
+                        borderRadius: '6px',
+                        cursor: 'pointer',
+                        fontWeight: '600',
+                        fontSize: '0.9rem',
+                        transition: 'all 0.2s'
+                      }}
+                    >
+                      Stated View
+                    </button>
+                    <button 
+                      onClick=${() => setRelationshipView('inferred')}
+                      style=${{
+                        padding: '0.5rem 1.5rem',
+                        background: relationshipView === 'inferred' ? '#3b82f6' : '#f3f4f6',
+                        color: relationshipView === 'inferred' ? 'white' : '#6b7280',
+                        border: 'none',
+                        borderRadius: '6px',
+                        cursor: 'pointer',
+                        fontWeight: '600',
+                        fontSize: '0.9rem',
+                        transition: 'all 0.2s'
+                      }}
+                    >
+                      Inferred View
+                    </button>
+                  </div>
+                `}
+              
+                <div style=${{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                  <div class="panel" style=${{ margin: '0 auto', width: '100%', maxWidth: '800px' }}>
+                    <h4 style=${{ textAlign: 'center', marginBottom: '1rem' }}>
+                      Concept Details ${(system.includes('snomed.info/sct')) ? `(${relationshipView === 'stated' ? 'Stated' : 'Inferred'})` : ''}
+                    </h4>
+                    ${renderDetails()}
+                  </div>
+                  
+                  <details style=${{ margin: '0 auto', width: '100%', maxWidth: '800px' }}>
+                    <summary style=${{ 
+                      cursor: 'pointer', 
+                      padding: '12px', 
+                      background: '#f7f7f7', 
+                      borderRadius: '6px',
+                      fontWeight: '600',
+                      textAlign: 'center'
+                    }}>View Raw JSON Response</summary>
+                    <div class="panel" style=${{ marginTop: '1rem' }}>
+                      <pre class="json" style=${{ 
+                        maxHeight: '400px', 
+                        overflow: 'auto',
+                        fontSize: '0.85rem'
+                      }}>${JSON.stringify(result, null, 2)}</pre>
+                    </div>
+                  </details>
+                </div>
+              `}
+              
+              ${activeTab === 'hierarchy' && html`
+                <div style=${{ margin: '0 auto', width: '100%', maxWidth: '1200px', padding: '1rem', background: 'white', borderRadius: '8px', border: '1px solid #e5e7eb' }}>
+                  <p style=${{ textAlign: 'center', padding: '3rem', color: '#6b7280', fontSize: '1rem' }}>
+                    🌳 Hierarchy visualization coming soon!<br/>
+                    <small style=${{ color: '#9ca3af' }}>This will display the concept's position in the SNOMED CT hierarchy</small>
+                  </p>
+                </div>
+              `}
             </div>
           `}
         </section>

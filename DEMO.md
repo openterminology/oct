@@ -12,13 +12,13 @@ docker compose up -d caddy
 
 ## Accessing the UI
 
-Navigate to: http://localhost/octopus.html
+Navigate to: <http://localhost/octopus.html>
 
 ## Demo Workflow
 
-1. **Enter FHIR Server URL** (default: https://tx.ontoserver.csiro.au/fhir)
+1. **Enter FHIR Server URL** (default: <https://tx.ontoserver.csiro.au/fhir>)
 2. **Enter Concept ID** (example: 138875005 - SNOMED CT code)
-3. **Enter System** (default: http://snomed.info/sct)
+3. **Enter System** (default: <http://snomed.info/sct>)
 4. **Click "Lookup"**
 5. **View Results:**
    - Display name and designations
@@ -27,7 +27,7 @@ Navigate to: http://localhost/octopus.html
 
 ## Tree Visualization
 
-Visit: http://localhost/tree-preact.html
+Visit: <http://localhost/tree-preact.html>
 
 - Expand/collapse nodes
 - Interactive D3-based tree view
