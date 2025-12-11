@@ -1,6 +1,6 @@
-# Caddy Webserver (local development)
+# Caddy Web server (local development)
 
-This repository includes an optional Caddy configuration and a `docker-compose.yml` to run a lightweight Caddy webserver for local development.
+This repository includes an optional Caddy configuration and a `docker-compose.yml` to run a lightweight Caddy web server for local development.
 
 Files added:
 

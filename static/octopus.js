@@ -39,6 +39,7 @@ function OctopusApp() {
   const [queryInfo, setQueryInfo] = useState('');
   const [relationshipView, setRelationshipView] = useState('stated'); // 'stated' or 'inferred'
   const [activeTab, setActiveTab] = useState('details'); // 'details' or 'hierarchy'
+  const [hierarchyView, setHierarchyView] = useState('parents'); // 'parents', 'children', or 'tree'
   const [recentSearches, setRecentSearches] = useState(() => {
     try {
       const saved = localStorage.getItem('recentSearches');
@@ -238,6 +239,203 @@ function OctopusApp() {
     if (selected) {
       setConceptId(selected.exampleCode);
     }
+  }
+  
+  function extractHierarchyData() {
+    if (!result) return { parents: [], children: [], currentConcept: null };
+    
+    const params = result.parameter || [];
+    const parents = [];
+    const children = [];
+    
+    // Get current concept info
+    const display = params.find(p => p.name === 'display')?.valueString || conceptId;
+    const currentConcept = {
+      code: conceptId,
+      display: display,
+      system: system
+    };
+    
+    // Extract parent relationships from properties
+    params.filter(p => p.name === 'property').forEach(prop => {
+      if (!prop.part) return;
+      
+      const code = prop.part.find(x => x.name === 'code')?.valueCode || prop.part.find(x => x.name === 'code')?.valueString;
+      const valueCoding = prop.part.find(x => x.name === 'value')?.valueCoding;
+      const valueString = prop.part.find(x => x.name === 'value')?.valueString;
+      
+      if (code === 'parent' && valueCoding) {
+        parents.push({
+          code: valueCoding.code,
+          display: valueCoding.display || valueString || valueCoding.code,
+          system: valueCoding.system
+        });
+      } else if (code === 'child' && valueCoding) {
+        children.push({
+          code: valueCoding.code,
+          display: valueCoding.display || valueString || valueCoding.code,
+          system: valueCoding.system
+        });
+      }
+    });
+    
+    return { parents, children, currentConcept };
+  }
+  
+  function renderSimpleTree(parents, children, currentConcept) {
+    if (!currentConcept) return null;
+    
+    return html`
+      <div style=${{ 
+        display: 'flex', 
+        flexDirection: 'column', 
+        alignItems: 'center',
+        gap: '1.5rem',
+        padding: '2rem',
+        minHeight: '300px'
+      }}>
+        <!-- Parents -->
+        ${parents.length > 0 && html`
+          <div style=${{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
+            ${parents.map((parent, idx) => html`
+              <div key=${idx}>
+                <div 
+                  onClick=${() => {
+                    setConceptId(parent.code);
+                    setTimeout(() => doLookup(fhirBase, parent.code, system), 100);
+                  }}
+                  style=${{ 
+                    padding: '0.75rem 1.5rem',
+                    background: '#e0f2fe',
+                    border: '2px solid #3b82f6',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    textAlign: 'center',
+                    minWidth: '200px',
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter=${e => e.currentTarget.style.background = '#bae6fd'}
+                  onMouseLeave=${e => e.currentTarget.style.background = '#e0f2fe'}
+                >
+                  <div style=${{ fontSize: '0.75rem', color: '#6b7280', marginBottom: '0.25rem' }}>Parent</div>
+                  <div style=${{ fontWeight: '600', color: '#0c4a6e' }}>${parent.display}</div>
+                  <div style=${{ fontSize: '0.85rem', color: '#6b7280', fontFamily: 'monospace', marginTop: '0.25rem' }}>${parent.code}</div>
+                </div>
+                ${idx < parents.length - 1 && html`
+                  <div style=${{ textAlign: 'center', color: '#9ca3af', fontSize: '1.5rem' }}>↓</div>
+                `}
+              </div>
+            `)}
+            <div style=${{ color: '#3b82f6', fontSize: '2rem' }}>↓</div>
+          </div>
+        `}
+        
+        <!-- Current Concept -->
+        <div style=${{ 
+          padding: '1.25rem 2rem',
+          background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+          border: '3px solid #1e40af',
+          borderRadius: '12px',
+          textAlign: 'center',
+          minWidth: '250px',
+          boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)'
+        }}>
+          <div style=${{ fontSize: '0.75rem', color: '#bfdbfe', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Current Concept</div>
+          <div style=${{ fontWeight: '700', color: 'white', fontSize: '1.1rem' }}>${currentConcept.display}</div>
+          <div style=${{ fontSize: '0.9rem', color: '#dbeafe', fontFamily: 'monospace', marginTop: '0.5rem' }}>${currentConcept.code}</div>
+        </div>
+        
+        <!-- Children -->
+        ${children.length > 0 && html`
+          <div style=${{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
+            <div style=${{ color: '#3b82f6', fontSize: '2rem' }}>↓</div>
+            ${children.map((child, idx) => html`
+              <div key=${idx}>
+                <div 
+                  onClick=${() => {
+                    setConceptId(child.code);
+                    setTimeout(() => doLookup(fhirBase, child.code, system), 100);
+                  }}
+                  style=${{ 
+                    padding: '0.75rem 1.5rem',
+                    background: '#fef3c7',
+                    border: '2px solid #f59e0b',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    textAlign: 'center',
+                    minWidth: '200px',
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter=${e => e.currentTarget.style.background = '#fde68a'}
+                  onMouseLeave=${e => e.currentTarget.style.background = '#fef3c7'}
+                >
+                  <div style=${{ fontSize: '0.75rem', color: '#6b7280', marginBottom: '0.25rem' }}>Child</div>
+                  <div style=${{ fontWeight: '600', color: '#92400e' }}>${child.display}</div>
+                  <div style=${{ fontSize: '0.85rem', color: '#6b7280', fontFamily: 'monospace', marginTop: '0.25rem' }}>${child.code}</div>
+                </div>
+                ${idx < children.length - 1 && html`
+                  <div style=${{ textAlign: 'center', color: '#9ca3af', fontSize: '1.5rem' }}>↓</div>
+                `}
+              </div>
+            `)}
+          </div>
+        `}
+        
+        ${parents.length === 0 && children.length === 0 && html`
+          <div style=${{ textAlign: 'center', color: '#9ca3af', marginTop: '2rem' }}>
+            <p>No parent or child relationships found for this concept</p>
+          </div>
+        `}
+      </div>
+    `;
+  }
+  
+  function renderHierarchyList(items, type) {
+    if (!items || items.length === 0) {
+      return html`
+        <div style=${{ textAlign: 'center', padding: '2rem', color: '#9ca3af' }}>
+          No ${type} relationships found
+        </div>
+      `;
+    }
+    
+    return html`
+      <ul style=${{ listStyle: 'none', padding: 0, margin: 0 }}>
+        ${items.map((item, idx) => html`
+          <li 
+            key=${idx}
+            onClick=${() => {
+              setConceptId(item.code);
+              setTimeout(() => doLookup(fhirBase, item.code, system), 100);
+            }}
+            style=${{ 
+              padding: '1rem', 
+              marginBottom: '0.5rem', 
+              background: '#f9fafb', 
+              borderRadius: '6px',
+              border: '1px solid #e5e7eb',
+              cursor: 'pointer',
+              transition: 'all 0.2s'
+            }}
+            onMouseEnter=${e => {
+              e.currentTarget.style.background = '#f0f7ff';
+              e.currentTarget.style.borderColor = '#3b82f6';
+            }}
+            onMouseLeave=${e => {
+              e.currentTarget.style.background = '#f9fafb';
+              e.currentTarget.style.borderColor = '#e5e7eb';
+            }}
+          >
+            <div style=${{ fontWeight: '600', color: '#111827', marginBottom: '0.25rem' }}>
+              ${item.display}
+            </div>
+            <div style=${{ fontSize: '0.85rem', color: '#6b7280', fontFamily: 'monospace' }}>
+              ${item.code}
+            </div>
+          </li>
+        `)}
+      </ul>
+    `;
   }
 
   function renderDetails() {
@@ -749,14 +947,92 @@ function OctopusApp() {
                 </div>
               `}
               
-              ${activeTab === 'hierarchy' && html`
-                <div style=${{ margin: '0 auto', width: '100%', maxWidth: '1200px', padding: '1rem', background: 'white', borderRadius: '8px', border: '1px solid #e5e7eb' }}>
-                  <p style=${{ textAlign: 'center', padding: '3rem', color: '#6b7280', fontSize: '1rem' }}>
-                    🌳 Hierarchy visualization coming soon!<br/>
-                    <small style=${{ color: '#9ca3af' }}>This will display the concept's position in the SNOMED CT hierarchy</small>
-                  </p>
-                </div>
-              `}
+              ${activeTab === 'hierarchy' && (() => {
+                const { parents, children, currentConcept } = extractHierarchyData();
+                return html`
+                  <div style=${{ margin: '0 auto', width: '100%', maxWidth: '1200px' }}>
+                    <!-- Hierarchy View Toggle -->
+                    <div style=${{ display: 'flex', justifyContent: 'center', gap: '0.5rem', marginBottom: '1.5rem' }}>
+                      <button 
+                        onClick=${() => setHierarchyView('parents')}
+                        style=${{
+                          padding: '0.5rem 1.5rem',
+                          background: hierarchyView === 'parents' ? '#3b82f6' : '#f3f4f6',
+                          color: hierarchyView === 'parents' ? 'white' : '#6b7280',
+                          border: 'none',
+                          borderRadius: '6px',
+                          cursor: 'pointer',
+                          fontWeight: '600',
+                          fontSize: '0.9rem',
+                          transition: 'all 0.2s'
+                        }}
+                      >
+                        ⬆️ Parents (${parents.length})
+                      </button>
+                      <button 
+                        onClick=${() => setHierarchyView('children')}
+                        style=${{
+                          padding: '0.5rem 1.5rem',
+                          background: hierarchyView === 'children' ? '#3b82f6' : '#f3f4f6',
+                          color: hierarchyView === 'children' ? 'white' : '#6b7280',
+                          border: 'none',
+                          borderRadius: '6px',
+                          cursor: 'pointer',
+                          fontWeight: '600',
+                          fontSize: '0.9rem',
+                          transition: 'all 0.2s'
+                        }}
+                      >
+                        ⬇️ Children (${children.length})
+                      </button>
+                      <button 
+                        onClick=${() => setHierarchyView('tree')}
+                        style=${{
+                          padding: '0.5rem 1.5rem',
+                          background: hierarchyView === 'tree' ? '#3b82f6' : '#f3f4f6',
+                          color: hierarchyView === 'tree' ? 'white' : '#6b7280',
+                          border: 'none',
+                          borderRadius: '6px',
+                          cursor: 'pointer',
+                          fontWeight: '600',
+                          fontSize: '0.9rem',
+                          transition: 'all 0.2s'
+                        }}
+                      >
+                        🌳 Full Tree
+                      </button>
+                    </div>
+                    
+                    <!-- Hierarchy Content -->
+                    <div style=${{ padding: '1.5rem', background: 'white', borderRadius: '8px', border: '1px solid #e5e7eb' }}>
+                      ${hierarchyView === 'parents' && html`
+                        <div>
+                          <h4 style=${{ marginBottom: '1rem', color: '#374151', textAlign: 'center' }}>
+                            ⬆️ Parent Concepts
+                          </h4>
+                          ${renderHierarchyList(parents, 'parent')}
+                        </div>
+                      `}
+                      
+                      ${hierarchyView === 'children' && html`
+                        <div>
+                          <h4 style=${{ marginBottom: '1rem', color: '#374151', textAlign: 'center' }}>
+                            ⬇️ Child Concepts
+                          </h4>
+                          ${renderHierarchyList(children, 'child')}
+                        </div>
+                      `}
+                      
+                      ${hierarchyView === 'tree' && html`
+                        <div>
+                          <h4 style=${{ marginBottom: '1rem', color: '#374151', textAlign: 'center' }}>🌳 Full Hierarchy Tree</h4>
+                          ${renderSimpleTree(parents, children, currentConcept)}
+                        </div>
+                      `}
+                    </div>
+                  </div>
+                `;
+              })()}
             </div>
           `}
         </section>
