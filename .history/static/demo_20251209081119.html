@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>OctoViewer - Demo Examples</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; padding: 2rem; background: #f5f7fa; max-width: 1200px; margin: 0 auto; }
+    h1 { color: #0b1220; margin-bottom: 0.5rem; }
+    .subtitle { color: #6b7280; margin-bottom: 2rem; }
+    .warning { background: #fff3cd; border: 1px solid #ffc107; padding: 1rem; border-radius: 6px; margin-bottom: 2rem; }
+    .examples-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+    .example-card { background: white; border: 1px solid #e5e7eb; border-radius: 8px; padding: 1.5rem; transition: all 0.2s; }
+    .example-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(-2px); }
+    .example-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+    .example-icon { font-size: 2rem; }
+    .example-title { font-size: 1.25rem; font-weight: 600; color: #0b1220; margin: 0; }
+    .example-code { font-family: monospace; background: #f3f4f6; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.9rem; color: #3b82f6; }
+    .example-desc { color: #6b7280; margin: 0.75rem 0; font-size: 0.95rem; }
+    .example-details { list-style: none; padding: 0; margin: 1rem 0; }
+    .example-details li { padding: 0.5rem 0; border-bottom: 1px solid #f3f4f6; font-size: 0.9rem; color: #374151; }
+    .example-details li:last-child { border-bottom: none; }
+    .btn-try { display: inline-block; background: #3b82f6; color: white; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none; font-weight: 500; margin-top: 1rem; transition: background 0.2s; }
+    .btn-try:hover { background: #2563eb; }
+    .system-badge { display: inline-block; padding: 0.25rem 0.5rem; background: #dbeafe; color: #1e40af; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <h1>🐙 OctoViewer Demo Examples</h1>
+  <p class="subtitle">Explore clinical terminology lookups across multiple code systems</p>
+  
+  <div class="warning">
+    <strong>⚠️ Important Notice:</strong> The data displayed in these examples is for demonstration purposes only and has not been clinically validated. This is mock data and should not be used for clinical decision-making or medical diagnosis.
+  </div>
+
+  <div class="examples-grid">
+    <!-- SNOMED CT Example -->
+    <div class="example-card">
+      <div class="example-header">
+        <span class="example-icon">🩺</span>
+        <div>
+          <h2 class="example-title">Type 2 Diabetes</h2>
+          <span class="system-badge">SNOMED CT</span>
+        </div>
+      </div>
+      <div class="example-code">Code: 44054006</div>
+      <p class="example-desc">Comprehensive SNOMED CT concept with synonyms, designations, and hierarchical relationships.</p>
+      <ul class="example-details">
+        <li>✓ Multiple designation types</li>
+        <li>✓ Parent relationships</li>
+        <li>✓ Module and versioning info</li>
+      </ul>
+      <a href="octopus.html?code=44054006&system=http://snomed.info/sct" class="btn-try">Try Example →</a>
+    </div>
+
+    <!-- ICD-10 Example -->
+    <div class="example-card">
+      <div class="example-header">
+        <span class="example-icon">💊</span>
+        <div>
+          <h2 class="example-title">Hypertension</h2>
+          <span class="system-badge">ICD-10</span>
+        </div>
+      </div>
+      <div class="example-code">Code: I10</div>
+      <p class="example-desc">ICD-10 diagnosis code showing chapter and category classification.</p>
+      <ul class="example-details">
+        <li>✓ Chapter classification</li>
+        <li>✓ Category grouping</li>
+        <li>✓ Clinical description</li>
+      </ul>
+      <a href="octopus.html?code=I10&system=http://hl7.org/fhir/sid/icd-10" class="btn-try">Try Example →</a>
+    </div>
+
+    <!-- LOINC Example -->
+    <div class="example-card">
+      <div class="example-header">
+        <span class="example-icon">🔬</span>
+        <div>
+          <h2 class="example-title">Hemoglobin Test</h2>
+          <span class="system-badge">LOINC</span>
+        </div>
+      </div>
+      <div class="example-code">Code: 718-7</div>
+      <p class="example-desc">Laboratory observation code with detailed component information.</p>
+      <ul class="example-details">
+        <li>✓ Component: Hemoglobin</li>
+        <li>✓ Property: Mass concentration</li>
+        <li>✓ System: Blood</li>
+        <li>✓ Scale: Quantitative</li>
+      </ul>
+      <a href="octopus.html?code=718-7&system=http://loinc.org" class="btn-try">Try Example →</a>
+    </div>
+
+    <!-- RxNorm Example -->
+    <div class="example-card">
+      <div class="example-header">
+        <span class="example-icon">💉</span>
+        <div>
+          <h2 class="example-title">Acetaminophen</h2>
+          <span class="system-badge">RxNorm</span>
+        </div>
+      </div>
+      <div class="example-code">Code: 313782</div>
+      <p class="example-desc">Medication concept with ingredient, strength, and dose form details.</p>
+      <ul class="example-details">
+        <li>✓ Ingredient: Acetaminophen</li>
+        <li>✓ Strength: 325 MG</li>
+        <li>✓ Form: Oral Tablet</li>
+        <li>✓ Type: Semantic Clinical Drug</li>
+      </ul>
+      <a href="octopus.html?code=313782&system=http://www.nlm.nih.gov/research/umls/rxnorm" class="btn-try">Try Example →</a>
+    </div>
+
+    <!-- SNOMED UK Example -->
+    <div class="example-card">
+      <div class="example-header">
+        <span class="example-icon">🇬🇧</span>
+        <div>
+          <h2 class="example-title">SNOMED CT UK</h2>
+          <span class="system-badge">SNOMED UK Edition</span>
+        </div>
+      </div>
+      <div class="example-code">Code: 138875005</div>
+      <p class="example-desc">SNOMED CT concept from the UK Edition with regional terminology.</p>
+      <ul class="example-details">
+        <li>✓ UK-specific terms</li>
+        <li>✓ NHS terminology</li>
+        <li>✓ Regional variations</li>
+      </ul>
+      <a href="octopus.html?code=138875005&system=http://snomed.info/sct/83821000000107" class="btn-try">Try Example →</a>
+    </div>
+
+    <!-- NHS dm+d Example -->
+    <div class="example-card">
+      <div class="example-header">
+        <span class="example-icon">🏥</span>
+        <div>
+          <h2 class="example-title">Paracetamol 500mg</h2>
+          <span class="system-badge">NHS dm+d</span>
+        </div>
+      </div>
+      <div class="example-code">Code: 329498007</div>
+      <p class="example-desc">NHS Dictionary of Medicines and Devices (dm+d) product with prescribing details.</p>
+      <ul class="example-details">
+        <li>✓ Virtual Medicinal Product</li>
+        <li>✓ BNF classification</li>
+        <li>✓ Dose form and strength</li>
+        <li>✓ Prescribing status</li>
+      </ul>
+      <a href="octopus.html?code=329498007&system=https://dmd.nhs.uk" class="btn-try">Try Example →</a>
+    </div>
+
+    <!-- Tree View Example -->
+    <div class="example-card">
+      <div class="example-header">
+        <span class="example-icon">🌳</span>
+        <div>
+          <h2 class="example-title">Hierarchy Tree</h2>
+          <span class="system-badge">Visualization</span>
+        </div>
+      </div>
+      <div class="example-code">Interactive D3 Tree</div>
+      <p class="example-desc">Explore SNOMED CT hierarchies with an interactive, collapsible tree visualization.</p>
+      <ul class="example-details">
+        <li>✓ 60+ clinical concepts</li>
+        <li>✓ Pan and zoom controls</li>
+        <li>✓ Codes in rounded rectangles</li>
+        <li>✓ Click to expand/collapse</li>
+      </ul>
+      <a href="tree-preact.html" class="btn-try">View Tree →</a>
+    </div>
+  </div>
+
+  <footer style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #e5e7eb; text-align: center; color: #6b7280;">
+    <p>🐙 Universal OctoViewer — Open Clinical Terminology Browser</p>
+    <p style="font-size: 0.9rem;">Licensed under Apache 2.0 & CC-BY 4.0 by OCT</p>
+    <p style="font-size: 0.85rem;">
+      <a href="octopus.html" style="color: #3b82f6; text-decoration: none;">Main Lookup</a> | 
+      <a href="tree-preact.html" style="color: #3b82f6; text-decoration: none;">Tree View</a> | 
+      <a href="https://openhealthhub.org/c/oct/58" target="_blank" rel="noopener" style="color: #3b82f6; text-decoration: none;">Contact</a>
+    </p>
+  </footer>
+</body>
+</html>

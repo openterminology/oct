@@ -1,0 +1,56 @@
+{
+  "resourceType": "Parameters",
+  "parameter": [
+    {
+      "name": "name",
+      "valueString": "Essential (primary) hypertension"
+    },
+    {
+      "name": "version",
+      "valueString": "ICD-10-CM-2023"
+    },
+    {
+      "name": "display",
+      "valueString": "Essential (primary) hypertension"
+    },
+    {
+      "name": "property",
+      "part": [
+        {
+          "name": "code",
+          "valueCode": "chapter"
+        },
+        {
+          "name": "value",
+          "valueString": "Diseases of the circulatory system (I00-I99)"
+        }
+      ]
+    },
+    {
+      "name": "property",
+      "part": [
+        {
+          "name": "code",
+          "valueCode": "category"
+        },
+        {
+          "name": "value",
+          "valueString": "Hypertensive diseases (I10-I16)"
+        }
+      ]
+    },
+    {
+      "name": "property",
+      "part": [
+        {
+          "name": "code",
+          "valueCode": "clinicalDescription"
+        },
+        {
+          "name": "value",
+          "valueString": "High arterial blood pressure with no known cause"
+        }
+      ]
+    }
+  ]
+}
