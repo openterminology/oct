@@ -1,25 +1,14 @@
+version: "3.8"
+
 services:
   caddy:
-    image: caddy:2-alpine
-    working_dir: /etc/caddy
-    ports:
-      - "8765:8765"
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
-      - ./terms:/etc/caddy/terms:ro
+    image: caddy:2
     restart: unless-stopped
-
-  mkdocs:
-    build:
-      context: .
-      dockerfile: Dockerfile.mkdocs
-    ports:
-      - "8764:8764"
+    # Use host networking so Caddy can proxy to services running on the host (e.g. Python dev server)
+    network_mode: "host"
     volumes:
-      - .:/mkdocs
-    working_dir: /mkdocs
-    restart: unless-stopped
-    # NOTE: explicit --live-reload because of upstream Click bug
-    # https://github.com/squidfunk/mkdocs-material/issues/8478
-    # Can be removed when MkDocs/Click is fixed
-    command: sh -c "mkdocs serve --livereload --dev-addr=0.0.0.0:8764"
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./caddy/data:/data
+      - ./caddy/config:/config
+      - ./static:/srv/static:ro
+    # If you prefer not to use host networking, remove network_mode and expose ports 80/443
