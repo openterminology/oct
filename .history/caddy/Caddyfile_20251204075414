@@ -1,0 +1,18 @@
+:80 {
+    encode gzip zstd
+    log {
+        output stdout
+        format console
+    }
+
+    # Serve the offline SPA from the mounted ./static directory
+    header /static/* {
+        Cache-Control "public, max-age=3600"
+    }
+
+    route /* {
+        root * /srv/static
+        try_files {path} /index.html
+        
+    }
+}
