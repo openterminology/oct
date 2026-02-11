@@ -26,6 +26,8 @@ Each of the following decisions is open for discussion and debate:
 
 - **Community-Owned**: The development of the terminology will be driven by the community, with contributions from a diverse group of stakeholders.
 
+- **Implementable**: The terminology will be designed to be easily implementable in clinical systems, with a focus on simplicity and usability. Its design will reinforce high data quality and interoperability, while minimising barriers to adoption and contribution.
+
 ## Strategy <kbd>[RFC](#rfcs)</kbd>
 
 I have been told that creating a new clinical terminology is impossible, or just pointless because of the dominance of some existing terminologies.
