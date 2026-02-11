@@ -55,6 +55,7 @@ nav:
       - Code of conduct: code-of-conduct.md
   - For Informaticians:
       - Overview: informaticians/index.md
+      - Research: informaticians/research.md
   - For Developers:
       - Overview: developers/index.md
       - Tooling (CLI, APIs): developers/tooling.md
