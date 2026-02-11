@@ -1,0 +1,94 @@
+{
+  "resourceType": "Parameters",
+  "parameter": [
+    {
+      "name": "name",
+      "valueString": "Acetaminophen 325 MG Oral Tablet"
+    },
+    {
+      "name": "version",
+      "valueString": "RxNorm-2023-09"
+    },
+    {
+      "name": "display",
+      "valueString": "Acetaminophen 325 MG Oral Tablet"
+    },
+    {
+      "name": "designation",
+      "part": [
+        {
+          "name": "language",
+          "valueCode": "en"
+        },
+        {
+          "name": "use",
+          "valueCoding": {
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "SY",
+            "display": "Synonym"
+          }
+        },
+        {
+          "name": "value",
+          "valueString": "Paracetamol 325 MG Oral Tablet"
+        }
+      ]
+    },
+    {
+      "name": "property",
+      "part": [
+        {
+          "name": "code",
+          "valueCode": "TTY"
+        },
+        {
+          "name": "value",
+          "valueString": "SCD"
+        },
+        {
+          "name": "description",
+          "valueString": "Semantic Clinical Drug"
+        }
+      ]
+    },
+    {
+      "name": "property",
+      "part": [
+        {
+          "name": "code",
+          "valueCode": "ingredient"
+        },
+        {
+          "name": "value",
+          "valueString": "Acetaminophen"
+        }
+      ]
+    },
+    {
+      "name": "property",
+      "part": [
+        {
+          "name": "code",
+          "valueCode": "strength"
+        },
+        {
+          "name": "value",
+          "valueString": "325 MG"
+        }
+      ]
+    },
+    {
+      "name": "property",
+      "part": [
+        {
+          "name": "code",
+          "valueCode": "doseForm"
+        },
+        {
+          "name": "value",
+          "valueString": "Oral Tablet"
+        }
+      ]
+    }
+  ]
+}

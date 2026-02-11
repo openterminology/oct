@@ -1,0 +1,19 @@
+# Query: Octopus 
+# ContextLines: 1
+
+4 results - 3 files
+
+README_CADDY.md:
+  27  
+  28: - The UI in this branch is named "Octo" (Octo viewer). There is an existing product called "Octo Viewer" outside this project; before using the same name publicly or publishing releases, please check for any trademark or branding conflicts and consider renaming if necessary. This repository does not perform any trademark clearance — this is a reminder to review naming/branding legally as appropriate for your organization.
+  29  
+
+README.md:
+  43  
+  44: The Octo terminology browser UI can be run locally using Docker:
+  45  
+
+static/octopus.js:
+  25   *
+  26:  * @returns {JSX.Element} The Octo terminology browser UI element.
+  27   */
