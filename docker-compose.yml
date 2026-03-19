@@ -9,17 +9,14 @@ services:
       - ./terms:/etc/caddy/terms:ro
     restart: unless-stopped
 
-  mkdocs:
+  docs:
     build:
       context: .
-      dockerfile: Dockerfile.mkdocs
+      dockerfile: Dockerfile.zensical
     ports:
       - "8764:8764"
     volumes:
-      - .:/mkdocs
-    working_dir: /mkdocs
+      - .:/workspace
+    working_dir: /workspace
     restart: unless-stopped
-    # NOTE: explicit --live-reload because of upstream Click bug
-    # https://github.com/squidfunk/mkdocs-material/issues/8478
-    # Can be removed when MkDocs/Click is fixed
-    command: sh -c "mkdocs serve --livereload --dev-addr=0.0.0.0:8764"
+    command: sh -c "zensical serve --dev-addr=0.0.0.0:8764"

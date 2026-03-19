@@ -1,4 +1,4 @@
-# Dockerfile for Material for MkDocs documentation 
+# Dockerfile for Zensical documentation
 
 # Base Docker image with Python 3.13 on Debian Trixie slim
 FROM python:3.13-trixie
@@ -7,9 +7,11 @@ FROM python:3.13-trixie
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-WORKDIR /mkdocs
+WORKDIR /workspace
 
-# Install MkDocs Material (version >= 9.5)
-RUN pip install --no-cache-dir "mkdocs-material>=9.5"
+COPY requirements.txt /tmp/requirements.txt
+
+# Install documentation dependencies
+RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
 # Command runs in docker compose hence no CMD here

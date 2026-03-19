@@ -1,4 +1,4 @@
-site_name: oct - the Open Clinical Terminology 
+site_name: oct - the Open Clinical Terminology
 site_description: >-
   Open Clinical Terminology (`oct`) - an open, community-driven clinical terminology.
 site_url: https://openterminology.org
@@ -6,18 +6,18 @@ repo_url: https://github.com/openterminology/oct
 repo_name: openterminology/oct
 
 copyright: >
-  oct - Open Clinical Terminology - is copyright &copy; 2022-25 Baw Medical Ltd, licensed under <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA 4.0</a> (concepts and data) or <a rel="license" href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0</a> (code).
+  oct - Open Clinical Terminology - is copyright &copy; 2022-2026 Baw Medical Ltd, licensed under <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a> (concepts and data) or <a rel="license" href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0</a> (code).
 
 theme:
-  name: material
+  variant: classic
   language: en
   features:
-    - content.action.edit # explicitly adds edit button (Material4MkDocs9.0)
-    - content.action.view # explicitly adds view button (Material4MkDocs9.0)
+    - content.action.edit
+    - content.action.view
     - content.code.copy
     - content.code.select
     - content.code.annotate
-    - navigation.footer # explicitly adds footer prev/next (Material4MkDocs9.0)
+    - navigation.footer
     - navigation.sections
     - navigation.tabs
     - navigation.top
@@ -64,4 +64,3 @@ nav:
       - Attribution and licensing: attribution.md
       - Foundation and custodianship: foundation.md
       - Project specification: README.md
-

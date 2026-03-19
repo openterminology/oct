@@ -1,13 +1,13 @@
 # Documentation setup
 
-This project uses [MkDocs](https://www.mkdocs.org/) with the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) theme.
+This project uses [Zensical](https://zensical.org/) for documentation.
 
 ## Local setup
 
-From the repository root, ensure your Python environment is active (for example, using the existing `.venv`) and install MkDocs and the Material theme:
+From the repository root, ensure your Python environment is active (for example, using the existing `.venv`) and install the documentation dependency:
 
 ```bash
-pip install "mkdocs-material>=9.0"
+pip install -r requirements.txt
 ```
 
 ## Serving the docs locally
@@ -15,7 +15,7 @@ pip install "mkdocs-material>=9.0"
 From the repository root (where `mkdocs.yml` lives), run:
 
 ```bash
-mkdocs serve
+zensical serve
 ```
 
 Then open the URL shown in the terminal (typically `http://127.0.0.1:8000/`).
@@ -25,7 +25,7 @@ Then open the URL shown in the terminal (typically `http://127.0.0.1:8000/`).
 To build a static site into the `site/` directory:
 
 ```bash
-mkdocs build
+zensical build --clean
 ```
 
 You can then deploy the `site/` directory to any static web host (GitHub Pages, Netlify, Cloudflare Pages, etc.).

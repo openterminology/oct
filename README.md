@@ -13,6 +13,21 @@ There are already a number of other clinical terminologies available, but none o
 
 The terminology will be developed using a 'clean-room' open-source approach, with contributions from clinicians, developers, and other stakeholders constituting the entire terminology. The goal is to create a terminology that is comprehensive, accurate, and easy to use.
 
+## Documentation
+
+The project documentation site is built with Zensical.
+
+```bash
+pip install -r requirements.txt
+zensical serve
+```
+
+To generate the static site locally:
+
+```bash
+zensical build --clean
+```
+
 
 ## Design Philosophy <kbd>[RFC](#rfcs)</kbd>
 
