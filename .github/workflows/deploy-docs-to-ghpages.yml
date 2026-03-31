@@ -22,7 +22,7 @@ jobs:
       - uses: actions/setup-python@v6 # latest as at 2025.11.28
         with:
           python-version: 3.x
-      - uses: actions/configure-pages@v5
+      - uses: actions/configure-pages@v6
       - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
       - uses: actions/cache@v5 # latest as at 2025.11.28
         with:
