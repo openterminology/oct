@@ -1,0 +1,102 @@
+{
+  "resourceType": "Parameters",
+  "parameter": [
+    {
+      "name": "name",
+      "valueString": "Type 2 diabetes mellitus"
+    },
+    {
+      "name": "version",
+      "valueString": "http://snomed.info/sct/900000000000207008/version/20230901"
+    },
+    {
+      "name": "display",
+      "valueString": "Type 2 diabetes mellitus"
+    },
+    {
+      "name": "designation",
+      "part": [
+        {
+          "name": "language",
+          "valueCode": "en"
+        },
+        {
+          "name": "use",
+          "valueCoding": {
+            "system": "http://snomed.info/sct",
+            "code": "900000000000013009",
+            "display": "Synonym"
+          }
+        },
+        {
+          "name": "value",
+          "valueString": "Type II diabetes mellitus"
+        }
+      ]
+    },
+    {
+      "name": "designation",
+      "part": [
+        {
+          "name": "language",
+          "valueCode": "en"
+        },
+        {
+          "name": "use",
+          "valueCoding": {
+            "system": "http://snomed.info/sct",
+            "code": "900000000000013009",
+            "display": "Synonym"
+          }
+        },
+        {
+          "name": "value",
+          "valueString": "Diabetes mellitus type 2"
+        }
+      ]
+    },
+    {
+      "name": "property",
+      "part": [
+        {
+          "name": "code",
+          "valueCode": "parent"
+        },
+        {
+          "name": "value",
+          "valueCode": "73211009"
+        },
+        {
+          "name": "description",
+          "valueString": "Diabetes mellitus"
+        }
+      ]
+    },
+    {
+      "name": "property",
+      "part": [
+        {
+          "name": "code",
+          "valueCode": "moduleId"
+        },
+        {
+          "name": "value",
+          "valueCode": "900000000000207008"
+        }
+      ]
+    },
+    {
+      "name": "property",
+      "part": [
+        {
+          "name": "code",
+          "valueCode": "effectiveTime"
+        },
+        {
+          "name": "value",
+          "valueString": "20020131"
+        }
+      ]
+    }
+  ]
+}

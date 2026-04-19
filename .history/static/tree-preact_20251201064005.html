@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐙</text></svg>">
+  <title>OCT — Clinical Terminology Tree View</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; padding: 1rem; background: #f5f7fa; }
+    h1 { margin: 0 0 0.5rem 0; font-size: 1.25rem; }
+    .toolbar { margin: 0.5rem 0; }
+    .toolbar button { margin-right: 0.5rem; padding: 0.5rem 1rem; background: #3182bd; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem; }
+    .toolbar button:hover { background: #2563a8; }
+    svg { width: 100%; height: 72vh; border: 1px solid #ddd; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .node circle { fill: #fff; stroke: #3182bd; stroke-width: 2px; }
+    .node text { font: 13px system-ui, sans-serif; fill: #333; }
+    .link { fill: none; stroke: #9ecae1; stroke-width: 2px; }
+    .node--internal circle { fill: #3182bd; }
+    .node--collapsed circle { fill: #ffd54f; stroke: #f9a825; }
+    .node:hover circle { stroke-width: 3px; }
+  </style>
+</head>
+<body>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+    <h1>🐙 OCT — Clinical Terminology Tree Browser</h1>
+    <a href="octopus.html" style="padding:0.5rem 1rem;background:#3182bd;color:white;text-decoration:none;border-radius:4px">← Back to Octopus</a>
+  </div>
+  <div class="toolbar">
+    <button id="expandAll">Expand All</button>
+    <button id="collapseAll">Collapse All</button>
+  </div>
+  <div id="app"></div>
+  <script type="module" src="tree-preact.js"></script>
+</body>
+</html>
