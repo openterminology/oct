@@ -18,7 +18,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6 # latest as at 2025.11.28
+      - uses: actions/checkout@v7 # latest as at 2025.11.28
       - uses: actions/setup-python@v6 # latest as at 2025.11.28
         with:
           python-version: 3.x
