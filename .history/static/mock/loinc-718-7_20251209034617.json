@@ -1,0 +1,124 @@
+{
+  "resourceType": "Parameters",
+  "parameter": [
+    {
+      "name": "name",
+      "valueString": "Hemoglobin [Mass/volume] in Blood"
+    },
+    {
+      "name": "version",
+      "valueString": "2.74"
+    },
+    {
+      "name": "display",
+      "valueString": "Hemoglobin [Mass/volume] in Blood"
+    },
+    {
+      "name": "designation",
+      "part": [
+        {
+          "name": "language",
+          "valueCode": "en"
+        },
+        {
+          "name": "use",
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LONG_COMMON_NAME",
+            "display": "Long Common Name"
+          }
+        },
+        {
+          "name": "value",
+          "valueString": "Hemoglobin [Mass/volume] in Blood"
+        }
+      ]
+    },
+    {
+      "name": "designation",
+      "part": [
+        {
+          "name": "language",
+          "valueCode": "en"
+        },
+        {
+          "name": "use",
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "SHORT_NAME",
+            "display": "Short Name"
+          }
+        },
+        {
+          "name": "value",
+          "valueString": "Hgb Bld-mCnc"
+        }
+      ]
+    },
+    {
+      "name": "property",
+      "part": [
+        {
+          "name": "code",
+          "valueCode": "COMPONENT"
+        },
+        {
+          "name": "value",
+          "valueString": "Hemoglobin"
+        }
+      ]
+    },
+    {
+      "name": "property",
+      "part": [
+        {
+          "name": "code",
+          "valueCode": "PROPERTY"
+        },
+        {
+          "name": "value",
+          "valueString": "MCnc (Mass concentration)"
+        }
+      ]
+    },
+    {
+      "name": "property",
+      "part": [
+        {
+          "name": "code",
+          "valueCode": "SYSTEM"
+        },
+        {
+          "name": "value",
+          "valueString": "Blood"
+        }
+      ]
+    },
+    {
+      "name": "property",
+      "part": [
+        {
+          "name": "code",
+          "valueCode": "SCALE_TYP"
+        },
+        {
+          "name": "value",
+          "valueString": "Qn (Quantitative)"
+        }
+      ]
+    },
+    {
+      "name": "property",
+      "part": [
+        {
+          "name": "code",
+          "valueCode": "CLASS"
+        },
+        {
+          "name": "value",
+          "valueString": "HEM/BC"
+        }
+      ]
+    }
+  ]
+}
