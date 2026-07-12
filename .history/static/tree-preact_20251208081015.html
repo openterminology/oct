@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐙<animate attributeName=%22y%22 values=%22.9em;.7em;.9em%22 dur=%221s%22 repeatCount=%22indefinite%22/></text></svg>">
+  <title>🐙Universal OctoViewer — Clinical Terminology Tree View</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; padding: 0; background: #f5f7fa; margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+    h1 { margin: 0 0 0.5rem 0; font-size: 1.25rem; }
+    .content-wrapper { flex: 1; padding: 1rem; }
+    .toolbar { margin: 0.5rem 0; }
+    .toolbar button { margin-right: 0.5rem; padding: 0.5rem 1rem; background: #3182bd; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem; }
+    .toolbar button:hover { background: #2563a8; }
+    svg { width: 100%; height: 72vh; border: 1px solid #ddd; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: transform 0.3s ease; transform-origin: center; }
+    svg.zoomed { transform: scale(1.5); height: 100vh; }
+    .node rect { fill: #fff; stroke: #3182bd; stroke-width: 2px; transition: fill 0.2s ease; }
+    .node--internal rect { fill: #3182bd; }
+    .node--collapsed rect { fill: #d3d3d3; }
+    .node text { font: 13px system-ui, sans-serif; fill: #333; }
+    .link { fill: none; stroke: #9ecae1; stroke-width: 2px; }
+    .node:hover rect { stroke-width: 3px; }
+    .node--collapsed:hover rect { fill: #e0e0e0; }
+    .enlarge-btn { position: fixed; bottom: 20px; right: 20px; padding: 0.75rem 1.25rem; background: #3182bd; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 1000; }
+    .enlarge-btn:hover { background: #2563a8; transform: scale(1.05); }
+    .enlarge-btn:active { transform: scale(0.95); }
+    footer { text-align: center; padding: 1rem; margin-top: auto; border-top: 1px solid #ddd; background: #f5f7fa; }
+    footer a { color: #3182bd; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <script type="module" src="tree-preact.js?v=8"></script>
+</body>
+</html>

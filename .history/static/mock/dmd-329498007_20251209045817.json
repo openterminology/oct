@@ -1,0 +1,133 @@
+{
+  "resourceType": "Parameters",
+  "parameter": [
+    {
+      "name": "name",
+      "valueString": "Paracetamol 500mg tablets"
+    },
+    {
+      "name": "display",
+      "valueString": "Paracetamol 500mg tablets"
+    },
+    {
+      "name": "designation",
+      "part": [
+        {
+          "name": "use",
+          "valueCoding": {
+            "system": "http://snomed.info/sct",
+            "code": "900000000000013009",
+            "display": "Synonym"
+          }
+        },
+        {
+          "name": "value",
+          "valueString": "Paracetamol 500mg tabs"
+        }
+      ]
+    },
+    {
+      "name": "designation",
+      "part": [
+        {
+          "name": "use",
+          "valueCoding": {
+            "system": "http://snomed.info/sct",
+            "code": "900000000000003001",
+            "display": "Fully specified name"
+          }
+        },
+        {
+          "name": "value",
+          "valueString": "Paracetamol 500mg tablets (product)"
+        }
+      ]
+    },
+    {
+      "name": "property",
+      "part": [
+        {
+          "name": "code",
+          "valueCode": "parent"
+        },
+        {
+          "name": "value",
+          "valueCoding": {
+            "system": "https://dmd.nhs.uk",
+            "code": "90332006",
+            "display": "Paracetamol"
+          }
+        }
+      ]
+    },
+    {
+      "name": "property",
+      "part": [
+        {
+          "name": "code",
+          "valueCode": "VMP"
+        },
+        {
+          "name": "value",
+          "valueString": "Virtual Medicinal Product"
+        }
+      ]
+    },
+    {
+      "name": "property",
+      "part": [
+        {
+          "name": "code",
+          "valueCode": "unitDoseFormSize"
+        },
+        {
+          "name": "value",
+          "valueString": "500 mg"
+        }
+      ]
+    },
+    {
+      "name": "property",
+      "part": [
+        {
+          "name": "code",
+          "valueCode": "doseForm"
+        },
+        {
+          "name": "value",
+          "valueCoding": {
+            "system": "https://dmd.nhs.uk",
+            "code": "385055001",
+            "display": "Tablet"
+          }
+        }
+      ]
+    },
+    {
+      "name": "property",
+      "part": [
+        {
+          "name": "code",
+          "valueCode": "prescribingStatus"
+        },
+        {
+          "name": "value",
+          "valueString": "Valid as a prescribable product"
+        }
+      ]
+    },
+    {
+      "name": "property",
+      "part": [
+        {
+          "name": "code",
+          "valueCode": "BNF"
+        },
+        {
+          "name": "value",
+          "valueString": "4.7.1 - Non-opioid analgesics and compound analgesic preparations"
+        }
+      ]
+    }
+  ]
+}
