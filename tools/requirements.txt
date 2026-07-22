@@ -1,2 +1,4 @@
+# SPDX-FileCopyrightText: 2022-2026 Dr Marcus Baw and Baw Medical Ltd
+# SPDX-License-Identifier: Apache-2.0
 click>=8.0.0
 scikit-learn>=1.0

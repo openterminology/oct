@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2022-2026 Dr Marcus Baw and Baw Medical Ltd
+# SPDX-License-Identifier: Apache-2.0
 # Dockerfile for Zensical documentation
 
 # Base Docker image with Python 3.13 on Debian Trixie slim

@@ -1,0 +1,37 @@
+version = 1
+
+# Documentation and other written content is CC-BY-4.0. Source files that can
+# carry an inline SPDX header (code, scripts, config) do so directly and are not
+# listed here; this file covers the files that cannot take a header cleanly.
+
+[[annotations]]
+path = [
+    "README.md",
+    "docs/**",
+    "spec/**.md",
+    "s/README.md",
+    "tools/README.md",
+    "tools/.spec.md",
+]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2022-2026 Dr Marcus Baw and Baw Medical Ltd"
+SPDX-License-Identifier = "CC-BY-4.0"
+
+# The terminology itself - concept identifiers and their descriptions - is the
+# core data asset, released under CC-BY-4.0.
+[[annotations]]
+path = ["terms/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2022-2026 Dr Marcus Baw and Baw Medical Ltd"
+SPDX-License-Identifier = "CC-BY-4.0"
+
+# Repository metadata and small config files that cannot carry a header.
+[[annotations]]
+path = [
+    "CNAME",
+    ".gitignore",
+    "LICENSE.md",
+]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2022-2026 Dr Marcus Baw and Baw Medical Ltd"
+SPDX-License-Identifier = "Apache-2.0"

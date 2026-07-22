@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2022-2026 Dr Marcus Baw and Baw Medical Ltd
+# SPDX-License-Identifier: Apache-2.0
 services:
   caddy:
     image: caddy:2-alpine

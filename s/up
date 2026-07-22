@@ -1,4 +1,6 @@
 #!/bin/bash
+# SPDX-FileCopyrightText: 2022-2026 Dr Marcus Baw and Baw Medical Ltd
+# SPDX-License-Identifier: Apache-2.0
 
 set -v  # Enable verbose mode
 set -e  # Exit on error
