@@ -19,7 +19,7 @@ Legend: `[x]` done, `[~]` in progress / partial, `[ ]` not started.
 
 - [x] **R6 - Migrate durable design decisions into `spec/`** - this folder.
 - [x] **R7 - House-style hygiene** - SHA-pinned CI actions, SPDX headers + `REUSE.toml`, `LICENSE.md` detectable by GitHub.
-- [ ] **R8 - Thin `AGENTS.md`** - read-first order (this `spec/`), invariants, and validation commands, with vendor-neutral `agent-instructions.md` and a `CLAUDE.md` pointer.
+- [x] **R8 - Thin `AGENTS.md`** - read-first order (this `spec/`), invariants, and validation commands, with vendor-neutral `agent-instructions.md` and a `CLAUDE.md` pointer.
 
 ## Standard
 
