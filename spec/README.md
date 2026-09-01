@@ -9,6 +9,8 @@ This folder holds the durable design decisions for Open Clinical Terminology (`o
 3. [roadmap.md](roadmap.md) - what is built, in progress, and planned, with stable `R<n>` item codes.
 4. [populating-the-initial-release.md](populating-the-initial-release.md) - how the first tranche of terminology is sourced without infringing anyone's copyright.
 5. [queries.md](queries.md) - open questions awaiting a human decision (the RFCs).
+6. [snomed-convergence.md](snomed-convergence.md) - strategic notes on the SNOMED GPS release and a possible SNOMED-official namespace + codelists + registry effort, and what `oct` should build that holds value on either path.
+7. [registry.md](registry.md) - design notes for the Clinical Knowledge Artefact registry and package manager (roadmap `R14`).
 
 ## How this folder relates to the rest of the repo
 

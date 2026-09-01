@@ -38,6 +38,13 @@ Legend: `[x]` done, `[~]` in progress / partial, `[ ]` not started.
 - [ ] **R5 - Provenance register** - a per-concept record of adopted-vs-crowdsourced origin and, for adopted content, the upstream source and licence. Make it a required, tested field.
 - [ ] **R3 - Agentic mapping/gap-analysis pipeline** - scaled de-duplication, gap analysis, and translation triage that propose to humans and never author clinical content.
 
+## Ontology layer / codelists
+
+See [snomed-convergence.md](snomed-convergence.md) for the strategic context: these items retain full value whether `oct` stays independent or converges with a SNOMED-official namespace effort.
+
+- [ ] **R13 - Specify the codelist format** - a versioned, nestable codelist artefact (codelists may contain codelists) as the first concrete ontology-layer artefact, namespace-agnostic so entries may reference `oct` identifiers, SCTIDs (e.g. via GPS), or both. Converge with the embryonic `.codelist` spec in the `sct` project rather than forking a second format.
+- [~] **R14 - Design the codelist registry / package-manager model** - publisher accounts, versioned releases, a declarative resolvable dependency manifest, and crowdsourced quality signals (downloads, citations, maintainers, freshness). Design document first ([registry.md](registry.md), drafted); implementation later.
+
 ## Governance / content
 
 - [ ] **R12 - Contributor Covenant / CLA** - formalise the contribution-licensing terms the README describes, so external content PRs (e.g. GitHub #24) have a clear provenance and licensing gate before merge.

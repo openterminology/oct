@@ -29,3 +29,5 @@ Questions that need a human decision before the affected part of the spec become
 
 - **Q-GOV-1** - Confirm the outbound split stays Apache-2.0 (code) + CC-BY-4.0 (data/docs). This deliberately diverges from the house default (AGPL + CC-BY-SA) because copyleft/share-alike would obstruct embedding a terminology in clinical systems. Recorded here so the divergence is intentional, not drift.
 - **Q-GOV-2** - When does custodianship move from Baw Medical Ltd to the proposed `oct` Foundation, and what triggers it?
+- **Q-GOV-3** - Does `oct` pursue the SNOMED convergence path (an official SNOMED project using GPS as the namespace, per [snomed-convergence.md](snomed-convergence.md)), stay independent, or hedge by building only the namespace-agnostic layers until SNOMED's position firms up? Who decides, and by when?
+- **Q-GOV-4** - If convergence proceeds, what happens to `oct`'s own identifier namespace - frozen, continued in parallel, or mapped into GPS/SCTIDs? NS003 (identifiers are never deleted) constrains the answer: any identifiers already minted must remain resolvable forever regardless of path.
