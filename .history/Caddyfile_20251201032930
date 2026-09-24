@@ -1,0 +1,8 @@
+{
+	admin off
+}
+
+:8765 {
+	root * ./static
+	file_server browse
+}

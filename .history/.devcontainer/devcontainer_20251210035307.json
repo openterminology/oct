@@ -1,0 +1,10 @@
+{
+  "name": "OCT Development",
+  "forwardPorts": [8765],
+  "portsAttributes": {
+    "8765": {
+      "label": "OctoViewer",
+      "onAutoForward": "notify"
+    }
+  }
+}

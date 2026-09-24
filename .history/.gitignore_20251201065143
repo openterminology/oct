@@ -1,0 +1,8 @@
+.spec.md
+oct/
+.history/
+.vscode/
+caddy/config/
+caddy/data/
+caddy-bin
+/tmp/Caddyfile-*
